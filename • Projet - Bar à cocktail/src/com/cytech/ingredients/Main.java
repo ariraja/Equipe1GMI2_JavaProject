@@ -33,10 +33,15 @@ public class Main {
         System.out.println("/////////////////////////////////////////////");
         System.out.println("// >");
         // int choix = SaisirInt(1,1);*/
-        System.out.println(" \n * Bienvue, je suis le barman que voulez vous ? \n");
 
-        Test.testBoisson();
+        Boisson a = new Boisson("raja",1000,"rouge",15);   Barman.AjouterBoissonAuStock(a);
+        Boisson b = new BoissonAlcoolisee("urvoy",5,"vert",15,5); Barman.AjouterBoissonAuStock(b);
+        Boisson c = new BoissonNonAlcoolisee("said",100,"rouge",15,1);        Barman.AjouterBoissonAuStock(c);
+        Cocktail coco1 = new Cocktail("coco1",11,"bleu",new Boisson[] {a,b,c}); Barman.AjouterCocktailALaListe(coco1);
+        Cocktail coco2 = new Cocktail("coco2",22,"bleu",new Boisson[] {a,b});Barman.AjouterCocktailALaListe(coco2);
 
+        Barman.SePresenter();
+        Barman.TuVeuxQuoi();
 
 
     }

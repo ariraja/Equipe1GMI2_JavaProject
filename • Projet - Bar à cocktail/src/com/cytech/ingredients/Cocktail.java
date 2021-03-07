@@ -1,6 +1,7 @@
 package com.cytech.ingredients;
 import java.util.Arrays;
 
+
 public class Cocktail extends BoissonMere{
 
 
@@ -14,19 +15,24 @@ public class Cocktail extends BoissonMere{
 
     @Override
     public String toString() {
-        return "Boisson{" +
-                "nom='" + this.getNom() + '\'' +
-                ", contenance=" + this.getContenance() +
-                ", prix=" + this.getPrix() +
-                ", Compo=" + Arrays.toString(this.listeComposantsBoisson) +
-                '}';
+        String res = "| Cocktail '" + this.getNom() + '\'' +
+                ", (" + this.getContenance() + "ml) ---> " + this.getPrix() +
+                "€ ";
+        res += " (";
+        for(Boisson b : this.listeComposantsBoisson)
+            res += "'" + b.getNom() +"',";
+        res = res.substring(0,res.length()-1);
+        res += ")";
+        return res;
     }
 
     public double getPrix() {
-        double total = 0;
+        double res = 0;
         for(Boisson b : this.listeComposantsBoisson)
-            total += b.getPrix();
-        return total*1.1;
+            res += b.getPrix();
+        res *= 1.1;
+        res = (double) Math.round(res * 100) / 100;
+        return res;
     }
     public Boisson[] getComposants() {
         return this.listeComposantsBoisson;

@@ -17,11 +17,9 @@ public class Boisson extends BoissonMere {
 
     @Override
     public String toString() {
-        return "Boisson{" +
-                "nom='" + this.getNom() + '\'' +
-                ", contenance=" + this.getContenance() +
-                ", prix=" + this.getPrix() +
-                '}';
+        return "| Boisson '" + this.getNom() + '\'' +
+                ", (" + this.getContenance() + "ml) ---> " + this.getPrix() +
+                "€ ";
     }
 
     public double getPrix() {
