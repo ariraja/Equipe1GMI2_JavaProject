@@ -34,7 +34,8 @@ public class Main {
         System.out.println("// >");
         // int choix = SaisirInt(1,1);*/
         System.out.println(" \n * Bienvue, je suis le barman que voulez vous ? \n");
-        Barman.AfficherCatalogue();
+
+        Test.testBoisson();
 
 
 
