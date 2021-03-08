@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Cocktail extends BoissonMere{
 
 
-    private Boisson[] listeComposantsBoisson;
+    private Boisson[] listeComposantsBoisson; // changer ça en MAP
 
 
     public Cocktail(String nom, double contenance, String couleur,Boisson[] listeComposants) {
@@ -15,7 +15,7 @@ public class Cocktail extends BoissonMere{
 
     @Override
     public String toString() {
-        String res = "| Cocktail '" + this.getNom() + '\'' +
+        String res = "Cocktail '" + this.getNom() + '\'' +
                 ", (" + this.getContenance() + "ml) ---> " + this.getPrix() +
                 "€ ";
         res += " (";

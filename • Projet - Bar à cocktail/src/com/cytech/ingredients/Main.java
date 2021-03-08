@@ -34,9 +34,9 @@ public class Main {
         System.out.println("// >");
         // int choix = SaisirInt(1,1);*/
 
-        Boisson a = new Boisson("raja",1000,"rouge",15);   Barman.AjouterBoissonAuStock(a);
-        Boisson b = new BoissonAlcoolisee("urvoy",5,"vert",15,5); Barman.AjouterBoissonAuStock(b);
-        Boisson c = new BoissonNonAlcoolisee("said",100,"rouge",15,1);        Barman.AjouterBoissonAuStock(c);
+        Boisson a = new Boisson("raja",100,"rouge",15);   Barman.AjouterBoissonAuStock(a);
+        Boisson b = new BoissonAlcoolisee("urvoy",250,"vert",15,5); Barman.AjouterBoissonAuStock(b);
+        Boisson c = new BoissonNonAlcoolisee("said",72,"rouge",15,1);        Barman.AjouterBoissonAuStock(c);
         Cocktail coco1 = new Cocktail("coco1",11,"bleu",new Boisson[] {a,b,c}); Barman.AjouterCocktailALaListe(coco1);
         Cocktail coco2 = new Cocktail("coco2",22,"bleu",new Boisson[] {a,b});Barman.AjouterCocktailALaListe(coco2);
 

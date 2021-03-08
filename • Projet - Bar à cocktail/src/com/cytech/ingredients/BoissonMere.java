@@ -1,8 +1,10 @@
 package com.cytech.ingredients;
 
 public abstract class BoissonMere {
-    private String nom;
-    private double contenance = 0.0;
+    private String nom; // nom du breuvage
+    private double contenance; // contenance du breuvage
+    private double contenu; // contenu du breuvage
+
     private String couleur; // en hexadecimal
 
     public BoissonMere(String nom, double contenance, String couleur) {
@@ -10,7 +12,6 @@ public abstract class BoissonMere {
         this.contenance = contenance;
         this.couleur = couleur;
     }
-
 
     public void Vider(double ml) {
         this.contenance -= ml;

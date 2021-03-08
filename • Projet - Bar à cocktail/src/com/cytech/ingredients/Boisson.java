@@ -2,11 +2,11 @@ package com.cytech.ingredients;
 
 public class Boisson extends BoissonMere {
 
-    private double prix = 10;
+    private double prixAchat = 10;
 
     public Boisson(String nom, double contenance, String couleur, double prix) {
         super(nom, contenance, couleur);
-        this.prix = prix;
+        this.prixAchat = prix;
     }
 
 
@@ -17,13 +17,13 @@ public class Boisson extends BoissonMere {
 
     @Override
     public String toString() {
-        return "| Boisson '" + this.getNom() + '\'' +
+        return "Boisson '" + this.getNom() + '\'' +
                 ", (" + this.getContenance() + "ml) ---> " + this.getPrix() +
                 "€ ";
     }
 
-    public double getPrix() {
-        return this.prix;
+    public double getPrix() { // le prix change en fct du contenu
+        return this.prixAchat;
     }
 
 
