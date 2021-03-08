@@ -1,5 +1,4 @@
 package com.cytech.ingredients;
-import com.sun.deploy.security.SelectableSecurityManager;
 
 import java.util.*;
 
@@ -7,11 +6,12 @@ import java.util.*;
 public class Cocktail extends BoissonMere{
 
     private boolean dispo = false;
-    private Boisson[] listeComposantsBoisson; // changer ça en MAP
+    private List<Boisson> listeComposantsBoisson; // changer ça en MAP
 
 
-    public Cocktail(String nom, double contenance, String couleur,Boisson[] listeComposants) {
-        super(nom, contenance, couleur);
+    public Cocktail(String nom, double contenance, List<Boisson> listeComposants) {
+
+        super(nom, contenance, listeComposants.get(0).getCouleur());
         this.listeComposantsBoisson = listeComposants;
     }
 
@@ -55,7 +55,7 @@ public class Cocktail extends BoissonMere{
         res = (double) Math.round(res * 100) / 100;
         return res;
     }
-    public Boisson[] getComposants() {
+    public List<Boisson> getComposants() {
         return this.listeComposantsBoisson;
     }
 

@@ -69,39 +69,89 @@ public class Barman {
     }
     public static void TuVeuxQuoi() {
         Commande maCommande = new Commande(1);
-        Map Carte = AfficherCatalogue(maCommande);
+        AfficherCatalogue(maCommande,"Le BAR"," wewe",true,true);
         System.out.println("  ---- \n (1 : Commander)     (2 : Créer mon propre Cocktail)      (0 : Quitter le bar) ");
 
         //int choix = Main.SaisirInt(0,2);
-        int choix = 1;
-        if(choix == 1) {
-
-            Barman.SelectionnerBoisson(Carte, maCommande);
-        }
+        int choix = 2;
+        if(choix == 1) Barman.SelectionnerBoisson(maCommande);
+        else if(choix == 2) Barman.ComposerCocktail(maCommande);
         else if(choix == 0) System.out.println("A bientot !");
 
     }
 
-    public static Map AfficherCatalogue(Commande maCommande) {
+    private static void ComposerCocktail(Commande maCommande) {
+        Map Carte = AfficherCatalogue(maCommande,"INGREDIENTS","",false,false);int choix = 1;boolean encore = true;
+        List<Boisson> listeIngredient = new ArrayList<>();
+
+
+            while( listeIngredient.size() < nbBoissonsDispo ) {
+
+                 do {
+
+
+                    System.out.println("  ---- \n (# : Entrer le numéro des boissons)             (0 : RETOUR)  ");
+                    System.out.print("  > ");
+                    choix = Main.SaisirInt(0, Carte.size(), "");
+                     if(listeIngredient.contains((Boisson) Carte.get(choix))){System.out.print(" /!\\");}
+                } while(listeIngredient.contains((Boisson) Carte.get(choix)));
+
+                if (choix != 0) {
+
+
+
+
+                    listeIngredient.add((Boisson) Carte.get(choix));
+                    System.out.println(" ~# " + listeIngredient);
+                    // ** quand on a saisie moins de 1
+                    if(listeIngredient.size() > 1)  {
+                        if(!(listeIngredient.size() == nbBoissonsDispo)) System.out.println("  ---- \n (1 : CONTINUER AJOUTER)   (2 : CREER MON COCKTAIL)         (0 : ANNULER)  ");
+                        else System.out.println("  ---- \n (1 : CREER MON COCKTAIL)                        (0 : ANNULER)  ");
+                        choix = Main.SaisirInt(0, 1, "");
+                        if (choix == 0) TuVeuxQuoi();
+                        else if (choix == 2) {
+                            System.out.print(" un nom > ");
+                            String unnom = Main.SaisirString("");
+                            Cocktail newCoco = new Cocktail(unnom, 25, listeIngredient);
+
+                            Barman.AjouterCocktailALaListe(newCoco);
+                        }
+                    }
+
+                } else {
+                    TuVeuxQuoi();
+                }
+            }
+            System.out.println("c trop");
+            TuVeuxQuoi();
+    }
+
+    public static Map AfficherCatalogue(Commande maCommande,String Titre,String Notice, boolean okAffCocktail, boolean okAffQuantite) {
         MettreAJourDisponibiliteCocktails();
         Map CarteSelec = new HashMap(); int i = 1;
         System.out.println("/////////////////");
-        System.out.println("//////  -*-* Le BAR *-*- ///////////////////////// \n");
+        System.out.println(String.format("//////  -*-* %s *-*- ///////////////////////// \n",Titre));
         if(nbBoissonsDispo + nbCocktailsDispo > 0) {
-            System.out.println(" #### Nos Cocktails : " + nbCocktailsDispo + "/" + LesCocktails.size());
-            for (Cocktail c : LesCocktails) {
-                //System.out.println(c.estDisponible());
-                if (c.estDisponible()) {
-                    System.out.println("    [" + i + "] : * " + c);
-                    CarteSelec.put(i, c);
-                    i++;
+            if(okAffCocktail) {
+                System.out.println(" #### Nos Cocktails : " + nbCocktailsDispo + "/" + LesCocktails.size());
+                for (Cocktail c : LesCocktails) {
+                    //System.out.println(c.estDisponible());
+                    if (c.estDisponible()) {
+                        System.out.println("    [" + i + "] : * " + c);
+                        CarteSelec.put(i, c);
+                        i++;
+                    }
                 }
             }
             System.out.println(" #### Nos Boissons : " + nbBoissonsDispo + "/" + LeStock.size());
             for (Boisson b : LeStock.keySet()) {
                 int fois = LeStock.get(b) - maCommande.getQuantiteBoisson(b);
                 if (fois > 0) {
-                    System.out.println("    [" + i + "] : * " + b + " x " + fois);
+                    if(okAffQuantite) {
+                        System.out.println("    [" + i + "] : * " + b + " x " + fois);
+                    } else {
+                        System.out.println("    [" + i + "] : * " + b);
+                    }
                     CarteSelec.put(i, b);
                     i++;
                 } else {
@@ -118,8 +168,8 @@ public class Barman {
 
     }
 
-    public static void SelectionnerBoisson(Map Carte, Commande maCommande) { // selectionne une boisson parmi la liste de boisson et renvoie la boisson
-        Carte = AfficherCatalogue(maCommande);int choix;
+    public static void SelectionnerBoisson( Commande maCommande) { // selectionne une boisson parmi la liste de boisson et renvoie la boisson
+        Map Carte = AfficherCatalogue(maCommande,"Le BAR","",true,true);int choix;
 
         if(maCommande.estVide()) System.out.println("  ---- \n (# : Entrer le numéro de la boisson)             (0 : Quittez)  ");
         else System.out.println("  ---- \n (# : Entrer le numéro de la boisson)          (0 : Voir Commande ~ " + maCommande.CalculPrixTotal() + "€)");
@@ -144,19 +194,18 @@ public class Barman {
                 System.out.println(" T'as tout pris chakal " );
             }
 
-            SelectionnerBoisson(Carte,maCommande);
+            SelectionnerBoisson(maCommande);
         }
         else {
             if (maCommande.estVide()) {
-                System.out.println(" Vous n'avez rien commander.. êtes vous sure ? \n (0 : Annuler  ");
-                //choix = Main.SaisirInt(0,Carte.size());
+                Main.MENUPRINCIPALE();
             } else {
                 maCommande.Afficher();
 
                 System.out.println(" (0 : Continuer ma commande)     (1 : Valider ma commande)     (2 : Annuler ma commande)");
                 choix = Main.SaisirInt(0, 2,"");
                 switch (choix) {
-                    case 0 : SelectionnerBoisson(Carte,maCommande); break;
+                    case 0 : SelectionnerBoisson(maCommande); break;
                     case 1 : Barman.ValiderCommande(maCommande); break;
                     case 2 : Barman.AnnulerCommande(maCommande);break;
                 }

@@ -12,8 +12,8 @@ public class Test {
         Boisson c = new BoissonNonAlcoolisee("said",100,"rouge",15,1);
         System.out.println(c);
 Boisson[] l = {a,c};
-Cocktail cc = new Cocktail("coco",0,"bleu",l);
-System.out.println(cc);
+//Cocktail cc = new Cocktail("coco",0,"bleu",l);
+//System.out.println(cc);
     }
 
     public static void testCocktail() {
