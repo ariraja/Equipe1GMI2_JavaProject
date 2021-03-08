@@ -1,5 +1,7 @@
 package com.cytech.ingredients;
 
+import java.util.Objects;
+
 public class Boisson extends BoissonMere {
 
     private double prixAchat = 10;
@@ -13,6 +15,20 @@ public class Boisson extends BoissonMere {
     public Boisson(String nom, double contenance, String couleur) {
         super(nom, contenance, couleur);
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Boisson)) return false;
+        Boisson boisson = (Boisson) o;
+        return Objects.equals(boisson.getNom(),this.getNom())
+                && Objects.equals(boisson.getCouleur(),this.getCouleur());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(prixAchat);
     }
 
     @Override

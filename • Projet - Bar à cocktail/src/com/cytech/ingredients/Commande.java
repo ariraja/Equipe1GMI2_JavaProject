@@ -4,8 +4,8 @@ import java.util.*;
 
 public class Commande {
     private int idc;
-    private List<Boisson> listeBoissons = new ArrayList<Boisson>();
-    private List<Cocktail> listeCocktails = new ArrayList<Cocktail>();
+    private HashMap<Boisson, Integer> commandeBoissons = new HashMap<Boisson, Integer>();
+    private HashMap<Cocktail, Integer> commandeCocktails = new HashMap<Cocktail, Integer>();
 
     public Commande(int idc) {
         this.idc = idc;
@@ -13,80 +13,94 @@ public class Commande {
 
     public void Ajouter(Object o, int cb ) {
         String cla = o.getClass().getSimpleName();
-        String[] lesBoiss = {"Boisson","BoissonAlcoolisee","BoissonNonAlcoolisee"};
-        List lb = Arrays.asList(lesBoiss);
+        List lb = Arrays.asList(new String[] {"Boisson","BoissonAlcoolisee","BoissonNonAlcoolisee"});
 
         if(lb.contains(cla)) {
             Boisson b = (Boisson) o;
-            for(int i =0; i < cb; i++) {
 
-                this.listeBoissons.add(b);
-
+            if(this.commandeBoissons.containsKey(b)){
+                int qte = this.commandeBoissons.get(b);
+                qte += cb;
+                this.commandeBoissons.put(b,qte);
+            } else {
+                this.commandeBoissons.put(b, cb);
             }
-            System.out.println(" ... " + cla + " '" + b.getNom() + "' x " + cb + " a été ajouté à la commande");
+
+        System.out.println(" ... " + cla + " '" + b.getNom() + "' x " + cb + " a été ajouté à la commande");
         } else if (cla.compareTo("Cocktail") == 0) {
             Cocktail c = (Cocktail) o;
-            for(int i =0; i < cb; i++) {
 
-                this.listeCocktails.add(c);
-
+            if(this.commandeCocktails.containsKey(c)){
+                int qte = this.commandeCocktails.get(c);
+                qte += cb;
+                this.commandeCocktails.put(c,qte);
+            } else {
+                this.commandeCocktails.put(c, cb);
             }
+
             System.out.println(" ... " + cla + " '" + c.getNom() + "' x " + cb + " a été ajouté à la commande");
         }
-
-
-
     }
 
-    public List<Boisson> getListeBoissons() {
-        return this.listeBoissons;
+    public Set<Boisson> getListeBoissons() {
+        return this.commandeBoissons.keySet();
     }
-    public List<Cocktail> getListeCocktails() {
-        return this.listeCocktails;
+    public Set<Cocktail> getListeCocktails() {
+        return this.commandeCocktails.keySet();
     }
-    public int getNbCocktails() {
-        return this.listeCocktails.size();
+
+    public int getNbBoissonsTOTAL() {
+        return this.commandeBoissons.size();
     }
-    public int getNbBoissons() {
-        return this.listeBoissons.size();
+    public int getNbCocktailsTOTAL() {
+        return this.commandeCocktails.size();
     }
     public boolean estVide() {
-        return ((this.getNbBoissons() + this.getNbCocktails()) == 0);
+        return ((this.getNbBoissonsTOTAL() + this.getNbCocktailsTOTAL()) == 0);
     }
-
+    public int getQuantiteBoisson(Boisson b) {
+        return this.commandeBoissons.get(b);
+    }
+    public int getQuantiteCocktail(Cocktail c) {
+        return this.commandeCocktails.get(c);
+    }
 
     public Map Afficher() {
         Map Dico = new HashMap();
         int i = 0;
         System.out.println(" //////////////");
         System.out.println(" ///// * VOTRE COMMANDE * ////////////////////////");
-        if(this.getNbCocktails() > 0) System.out.println(" ## " + this.getNbCocktails() + " Cocktails");
-        for (Cocktail c : this.listeCocktails) {
-            System.out.println("     [" +i + "] : | " + c);
+        if(this.getNbCocktailsTOTAL() > 0) System.out.println(" ## " + this.getNbCocktailsTOTAL() + " Cocktails");
+        for (Cocktail c : getListeCocktails()) {
+            System.out.println("     [" +i + "] : | " + c + " x " + this.commandeCocktails.get(c));
             Dico.put(i, c);
             i++;
         }
-        if(this.getNbBoissons() > 0) System.out.println(" ## " + this.getNbBoissons() + " Boissons");
+        if(this.getNbBoissonsTOTAL() > 0) System.out.println(" ## " + this.getNbBoissonsTOTAL() + " Boissons");
 
-        for (Boisson b : this.listeBoissons) {
-            System.out.println("     [" + i + "] : | " + b);
+        for (Boisson b : getListeBoissons()) {
+            System.out.println("     [" + i + "] : | " + b + " x " + this.commandeBoissons.get(b));
             Dico.put(i, b);
             i++;
         }
-        System.out.println(" ///// PRIX TOTAL : " + this.CalculPrixTotal() + "€");
+
+        System.out.println(" ///// * PRIX TOTAL : " + this.CalculPrixTotal() + "€");
+        System.out.println(" //////////////");
         return Dico;
     }
 
     public double CalculPrixTotal() {
         double res = 0.0;
-        if(this.getNbCocktails() > 0) {
+        if(this.getNbCocktailsTOTAL() > 0) {
             for (Cocktail c : this.getListeCocktails()) {
-                res += c.getPrix();
+                int qte = this.commandeCocktails.get(c);
+                res += c.getPrix()*qte;
             }
         }
-        if(this.getNbBoissons() > 0) {
+        if(this.getNbBoissonsTOTAL() > 0) {
             for (Boisson b : this.getListeBoissons()) {
-                res += b.getPrix();
+                int qte = this.commandeBoissons.get(b);
+                res += b.getPrix()*qte;
             }
         }
         res = (double) Math.round(res * 100) / 100;

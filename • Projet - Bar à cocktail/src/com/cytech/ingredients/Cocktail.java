@@ -1,16 +1,37 @@
 package com.cytech.ingredients;
-import java.util.Arrays;
+import com.sun.deploy.security.SelectableSecurityManager;
+
+import java.util.*;
 
 
 public class Cocktail extends BoissonMere{
 
-
+    private boolean dispo = false;
     private Boisson[] listeComposantsBoisson; // changer ça en MAP
 
 
     public Cocktail(String nom, double contenance, String couleur,Boisson[] listeComposants) {
         super(nom, contenance, couleur);
         this.listeComposantsBoisson = listeComposants;
+    }
+
+    public boolean estDisponible() {
+        return this.dispo;
+    }
+    public void majDispo(HashMap<Boisson, Integer> B_stock) {
+        boolean ok = true;
+        System.out.println(Arrays.toString(this.listeComposantsBoisson));
+         for(Boisson comp : this.listeComposantsBoisson) {
+             if(!B_stock.containsKey(comp)  ) { // si le composant n'est pas présent
+                 ok = false;
+             } else if( B_stock.get(comp) <= 0 ){
+                 ok = false;
+
+             }
+             System.out.println("     +" +comp + " ######## " + B_stock + " " +ok);
+         }
+
+         this.dispo = ok;
     }
 
     @Override
