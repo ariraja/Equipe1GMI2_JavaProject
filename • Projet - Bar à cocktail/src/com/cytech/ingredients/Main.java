@@ -17,10 +17,6 @@ public class Main {
     }
 
     public static void MENUPRINCIPALE() {
-
-
-    }
-    public static void main(String[] args) {/*
         System.out.println("/////////////////////////////////////////////");
         System.out.println("/////////// Mlamali SAIDSALIMO //////////////");
         System.out.println("//////////   Ari RAJAOEFERA   ///////////////");
@@ -32,7 +28,11 @@ public class Main {
         System.out.println("////  1 :  ENTRER           //////////////");
         System.out.println("/////////////////////////////////////////////");
         System.out.println("// >");
-        // int choix = SaisirInt(1,1);*/
+        int choix = SaisirInt(1,1);*/
+
+    }
+    public static void main(String[] args) {
+
 
         Boisson a = new Boisson("raja",100,"rouge",15);   Barman.AjouterBoissonAuStock(a,2);
         Boisson b = new BoissonAlcoolisee("urvoy",250,"vert",15,5); Barman.AjouterBoissonAuStock(b,5);
@@ -51,6 +51,8 @@ public class Main {
 
         Barman.AfficherCatalogue();
 */
+        Barman.RetirerCocktailDeLaListe(coco1);
+
         Barman.SePresenter();
         Barman.TuVeuxQuoi();
 

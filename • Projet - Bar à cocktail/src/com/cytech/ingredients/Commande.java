@@ -59,17 +59,27 @@ public class Commande {
         return ((this.getNbBoissonsTOTAL() + this.getNbCocktailsTOTAL()) == 0);
     }
     public int getQuantiteBoisson(Boisson b) {
-        return this.commandeBoissons.get(b);
+        if(this.commandeBoissons.containsKey(b) ){
+            int qte = this.commandeBoissons.get(b);
+            return qte;
+        } else {
+            return 0;
+        }
     }
     public int getQuantiteCocktail(Cocktail c) {
-        return this.commandeCocktails.get(c);
+        if(this.commandeCocktails.containsKey(c) ){
+            int qte = this.commandeCocktails.get(c);
+            return qte;
+        } else {
+            return 0;
+        }
     }
 
     public Map Afficher() {
         Map Dico = new HashMap();
         int i = 0;
         System.out.println(" //////////////");
-        System.out.println(" ///// * VOTRE COMMANDE * ////////////////////////");
+        System.out.println(" ///// *** VOTRE COMMANDE *** ////////////////////////");
         if(this.getNbCocktailsTOTAL() > 0) System.out.println(" ## " + this.getNbCocktailsTOTAL() + " Cocktails");
         for (Cocktail c : getListeCocktails()) {
             System.out.println("     [" +i + "] : | " + c + " x " + this.commandeCocktails.get(c));
@@ -84,7 +94,7 @@ public class Commande {
             i++;
         }
 
-        System.out.println(" ///// * PRIX TOTAL : " + this.CalculPrixTotal() + "€");
+        System.out.println(" ///// *** PRIX TOTAL : " + this.CalculPrixTotal() + "€ ***");
         System.out.println(" //////////////");
         return Dico;
     }
@@ -105,5 +115,10 @@ public class Commande {
         }
         res = (double) Math.round(res * 100) / 100;
         return res;
+    }
+
+    public void Supprimer() {
+        this.commandeCocktails.clear();
+        this.commandeBoissons.clear();
     }
 }

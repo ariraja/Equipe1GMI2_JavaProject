@@ -20,7 +20,7 @@ public class Cocktail extends BoissonMere{
     }
     public void majDispo(HashMap<Boisson, Integer> B_stock) {
         boolean ok = true;
-        System.out.println(Arrays.toString(this.listeComposantsBoisson));
+        //System.out.println(Arrays.toString(this.listeComposantsBoisson));
          for(Boisson comp : this.listeComposantsBoisson) {
              if(!B_stock.containsKey(comp)  ) { // si le composant n'est pas présent
                  ok = false;
@@ -28,7 +28,7 @@ public class Cocktail extends BoissonMere{
                  ok = false;
 
              }
-             System.out.println("     +" +comp + " ######## " + B_stock + " " +ok);
+            // System.out.println("     +" +comp + " ######## " + B_stock + " " +ok);
          }
 
          this.dispo = ok;
