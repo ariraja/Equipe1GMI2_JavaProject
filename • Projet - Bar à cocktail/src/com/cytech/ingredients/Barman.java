@@ -69,11 +69,11 @@ public class Barman {
     }
     public static void TuVeuxQuoi() {
         Commande maCommande = new Commande(1);
-        AfficherCatalogue(maCommande,"Le BAR"," wewe",true,true);
+        AfficherCatalogue(maCommande,"Le BAR","Qu'est ce qui vous ferai plaisir ?",true,true);
         System.out.println("  ---- \n (1 : Commander)     (2 : Créer mon propre Cocktail)      (0 : Quitter le bar) ");
 
-        //int choix = Main.SaisirInt(0,2);
-        int choix = 2;
+        int choix = Main.SaisirInt(0,2,"");
+        //int choix = 2;
         if(choix == 1) Barman.SelectionnerBoisson(maCommande);
         else if(choix == 2) Barman.ComposerCocktail(maCommande);
         else if(choix == 0) System.out.println("A bientot !");
@@ -81,19 +81,19 @@ public class Barman {
     }
 
     private static void ComposerCocktail(Commande maCommande) {
-        Map Carte = AfficherCatalogue(maCommande,"INGREDIENTS","",false,false);int choix = 1;boolean encore = true;
+        Map Carte = AfficherCatalogue(maCommande,"INGREDIENTS","De quoi sera composer votre cocktail ? (2 boissons minimum)",false,false);int choix;boolean encore = true;
         List<Boisson> listeIngredient = new ArrayList<>();
-
 
             while( listeIngredient.size() < nbBoissonsDispo ) {
 
                  do {
-
-
-                    System.out.println("  ---- \n (# : Entrer le numéro des boissons)             (0 : RETOUR)  ");
+                    System.out.println("  ---- \n (# : Entrer le numéro de la boisson)             (0 : RETOUR)  ");
                     System.out.print("  > ");
                     choix = Main.SaisirInt(0, Carte.size(), "");
-                     if(listeIngredient.contains((Boisson) Carte.get(choix))){System.out.print(" /!\\");}
+                     if(listeIngredient.contains((Boisson) Carte.get(choix))){
+                         System.out.print(" /!\\ Vous avez déjà choisi cette boisson.. ");
+                         //AfficherCatalogue(maCommande,"INGREDIENTS","De quoi sera composer votre cocktail ? (2 boissons minimum)",false,false);
+                     }
                 } while(listeIngredient.contains((Boisson) Carte.get(choix)));
 
                 if (choix != 0) {
@@ -102,19 +102,25 @@ public class Barman {
 
 
                     listeIngredient.add((Boisson) Carte.get(choix));
-                    System.out.println(" ~# " + listeIngredient);
+                    System.out.println(" ~# Vos Ingrédients  " + listeIngredient);
                     // ** quand on a saisie moins de 1
                     if(listeIngredient.size() > 1)  {
-                        if(!(listeIngredient.size() == nbBoissonsDispo)) System.out.println("  ---- \n (1 : CONTINUER AJOUTER)   (2 : CREER MON COCKTAIL)         (0 : ANNULER)  ");
-                        else System.out.println("  ---- \n (1 : CREER MON COCKTAIL)                        (0 : ANNULER)  ");
-                        choix = Main.SaisirInt(0, 1, "");
+                        if(!(listeIngredient.size() == nbBoissonsDispo)) {
+                            System.out.println("  ---- \n (1 : CONTINUER AJOUTER)   (2 : CREER MON COCKTAIL)         (0 : ANNULER)  ");
+                            choix = Main.SaisirInt(0, 2, "");
+                        }
+                        else {
+                            System.out.println("  ---- \n                           (2 : CREER MON COCKTAIL)         (0 : ANNULER)  ");
+                            choix = Main.SaisirInt(0, 2, "");
+                            if(choix== 1)choix = 2;
+                        }
                         if (choix == 0) TuVeuxQuoi();
                         else if (choix == 2) {
                             System.out.print(" un nom > ");
                             String unnom = Main.SaisirString("");
                             Cocktail newCoco = new Cocktail(unnom, 25, listeIngredient);
-
                             Barman.AjouterCocktailALaListe(newCoco);
+                            TuVeuxQuoi(); // retour au menu principale quoi
                         }
                     }
 
@@ -129,7 +135,7 @@ public class Barman {
     public static Map AfficherCatalogue(Commande maCommande,String Titre,String Notice, boolean okAffCocktail, boolean okAffQuantite) {
         MettreAJourDisponibiliteCocktails();
         Map CarteSelec = new HashMap(); int i = 1;
-        System.out.println("/////////////////");
+        System.out.println("///////////////// " + Notice);
         System.out.println(String.format("//////  -*-* %s *-*- ///////////////////////// \n",Titre));
         if(nbBoissonsDispo + nbCocktailsDispo > 0) {
             if(okAffCocktail) {
@@ -169,7 +175,8 @@ public class Barman {
     }
 
     public static void SelectionnerBoisson( Commande maCommande) { // selectionne une boisson parmi la liste de boisson et renvoie la boisson
-        Map Carte = AfficherCatalogue(maCommande,"Le BAR","",true,true);int choix;
+        Map Carte = AfficherCatalogue(maCommande,"Le BAR","",true,true);
+        int choix;
 
         if(maCommande.estVide()) System.out.println("  ---- \n (# : Entrer le numéro de la boisson)             (0 : Quittez)  ");
         else System.out.println("  ---- \n (# : Entrer le numéro de la boisson)          (0 : Voir Commande ~ " + maCommande.CalculPrixTotal() + "€)");

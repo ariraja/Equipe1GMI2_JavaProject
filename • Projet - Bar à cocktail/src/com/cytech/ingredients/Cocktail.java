@@ -58,7 +58,6 @@ public class Cocktail extends BoissonMere{
     public List<Boisson> getComposants() {
         return this.listeComposantsBoisson;
     }
-
     public double getDegreAlcool() {
         return 0.0;
     }
