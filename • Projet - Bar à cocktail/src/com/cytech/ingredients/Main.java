@@ -24,24 +24,27 @@ public class Main {
     }
 
     public static void MENUPRINCIPALE() {
-        System.out.println("/////////////////////////////////////////////");
-        System.out.println("/////////// Mlamali SAIDSALIMO //////////////");
-        System.out.println("//////////   Ari RAJAOEFERA   ///////////////");
-        System.out.println("/////////  Guillaume URVOY   ////////////////");
-        System.out.println("//////// Jonathan LOUAMBA   /////////////////");
-        System.out.println("/////////////////////////////////////////////");
-        System.out.println("////// * BAR A COCKTAIL * ///////////////////");
-        System.out.println("/////////////////////////////////////////////");
-        System.out.println("////  1 :  ENTRER           //////////////");
-        System.out.println("/////////////////////////////////////////////");
-        System.out.println("// >");
-        int choix = SaisirInt(1,1,"");
+        System.out.println("//////////////////////////////////////////////");
+        System.out.println("///////////// Mlamali SAIDSALIMO /////////////");
+        System.out.println("////////////   Ari RAJAOEFERA   //////////////");
+        System.out.println("///////////  Guillaume URVOY   ///////////////");
+        System.out.println("////////// Jonathan LOUAMBA   ////////////////");
+        System.out.println("//////////////////////////////////////////////");
+        System.out.println("//////// * BAR A COCKTAIL * //////////////////");
+        System.out.println("//////////////////////////////////////////////");
+        System.out.println("//////  1 : BIENVENUE (CLIENT)   /////////////");
+        System.out.println("/////  ---                      //////////////");
+        System.out.println("////  2 : GESTION (BARMAN)     ///////////////");
+        System.out.println("//////////////////////////////////////////////");
+        System.out.print("// > ");
+        int choix = SaisirInt(1,2,"");
+        ClearConsole();
         Barman.SePresenter();
         Barman.TuVeuxQuoi();
 
     }
     public static void ClearConsole() {
-        System.out.print("\u000C");
+
 
     }
     public static void main(String[] args) {
@@ -65,9 +68,7 @@ public class Main {
         Barman.AfficherCatalogue();
 */
 
-
-        Barman.SePresenter();
-        Barman.TuVeuxQuoi();
+        MENUPRINCIPALE();
 
 
     }
