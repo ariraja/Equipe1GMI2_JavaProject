@@ -10,6 +10,7 @@ public class Barman {
 
     // Initialiser les Boissons en stock a partir du fichier JSON
     public static void initBoissonsJSON() {
+        LeStock.clear();
         //**** GET LES BOISSONS
         Boisson a = new BoissonAlcoolisee("Braja","rouge",0.02,52);
         Boisson b = new BoissonAlcoolisee("Burvoy","bleu",0.05,70);
@@ -22,7 +23,7 @@ public class Barman {
     }
     // initialiser les Coktails a partir du fichier JSON
     public static void initCocktailsJSON() { // Cette fonction est a modif
-
+        LesCocktails.clear();
         Boisson a = new BoissonAlcoolisee("Braja","rouge",0.02,52);
         Boisson b = new BoissonAlcoolisee("Burvoy","bleu",0.05,70);
         Boisson c = new BoissonNonAlcoolisee("BSaid","vert",0.3,24);
@@ -41,14 +42,9 @@ public class Barman {
         Barman.AjouterCocktailALaListe(coco2);
 
     }
+
     private static HashMap<Boisson, Integer> LeStock = new HashMap<Boisson, Integer>(); // ['nomboisson'] return quntité
-
-
-
-    private static List<Cocktail> LesCocktails = new ArrayList<Cocktail>();
-
-
-
+    private static ArrayList<Cocktail> LesCocktails = new ArrayList<Cocktail>();
 
 
     public static int getQuantiteDUneBoissonStock(Boisson b) {
@@ -108,13 +104,12 @@ public class Barman {
     public static void TuVeuxQuoi() {
         Commande maCommande = new Commande(1); // TODO date de ajd
         AfficherCatalogue(maCommande,"Le BAR","Qu'est ce qui vous ferai plaisir ?",true,true);
-        System.out.println("  ---- \n (1 : Commander)     (2 : Créer mon propre Cocktail)      (0 : Quitter le bar) ");
+        System.out.println("  ---- \n ( 1 : *COMMANDER* )     ( 2 : *CREER MON COCKTAIL* )      (0 : *QUITTER LE BAR* ) ");
 
-        //int choix = Main.SaisirInt(0,2,"");
-        int choix = 2;
+        int choix = Main.SaisirInt(0,2,"");
         if(choix == 1) Barman.SelectionnerBoisson(maCommande);
         else if(choix == 2) Barman.ComposerCocktail(maCommande);
-        else if(choix == 0) System.out.println("A bientot !"); // TODO fonction a bientot
+        else if(choix == 0) Barman.Abientot(maCommande); // TODO fonction a bientot
 
     }
     private static Double SommeArray(Collection<Double> t) {
@@ -238,7 +233,6 @@ public class Barman {
         }
     }
 
-
     // Afficher le contenu du bar, retourne une carte pour selectionné
     public static Map AfficherCatalogue(Commande maCommande,String Titre,String Notice, boolean okAffCocktail, boolean okAffQuantite) {
         Map CarteSelec = new HashMap(); int i = 1;
@@ -295,7 +289,7 @@ public class Barman {
             System.out.println(" ~# " + Carte.get(choix));
             System.out.print(" combien ? > ");
 
-            int maxCombien= 1000;
+            int maxCombien= 100;
 
             if (choix > Barman.getNbCocktailsDispo()) {
                 maxCombien = getQuantiteDUneBoissonStock((Boisson) Carte.get(choix));
@@ -320,7 +314,7 @@ public class Barman {
                 System.out.println(" (0 : Continuer ma commande)     (1 : Valider ma commande)     (2 : Annuler ma commande)");
                 choix = Main.SaisirInt(0, 2,"");
                 switch (choix) {
-                    case 0 : SelectionnerBoisson(maCommande); break;
+                    case 0 : Barman.SelectionnerBoisson(maCommande); break;
                     case 1 : Barman.ValiderCommande(maCommande); break;
                     case 2 : Barman.AnnulerCommande(maCommande);break;
                 }
@@ -364,6 +358,14 @@ public class Barman {
             if(LeStock.get(b) > 0) nbBoissonsDispo++;
         }
         return nbBoissonsDispo;
+    }
+
+    public static void Abientot( Commande maCommande) {
+        Main.MENUPRINCIPALE();
+
+        // sauvegarder le stock
+
+        //
     }
 
 

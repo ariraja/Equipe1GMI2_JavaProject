@@ -108,7 +108,7 @@ public class Commande {
             i++;
         }
 
-        System.out.println(" ///// *** PRIX TOTAL : " + this.CalculPrixTotal() + "€ ***");
+        System.out.println("\n ///// *** PRIX TOTAL : " + this.CalculPrixTotal() + "€ ***");
         System.out.println(" //////////////");
         return Dico;
     }

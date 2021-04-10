@@ -35,22 +35,39 @@ public class Main {
         }
         return value;
     }
+    public static String printColor(String c) {
+        switch (c) {
+            case "RESET" : return "\033[0m";
+            case "BOLD" : return "\033[1m";
+            case "BLACK" : return "\033[30m";
+            case "RED" : return "\033[31m";
+            case "GREEN" : return "\033[32m";
+            case "YELLOW" : return "\033[33m";
+            case "BLUE" : return "\033[34m";
+            case "MAGENTA" : return "\033[35m";
+            case "CYAN" : return "\033[36m";
+            case "WHITE" : return "\033[37m";
+            default: return "\033[0m";
+        }
+
+    }
+
 
     public static void MENUPRINCIPALE() {
+        System.out.println(printColor("YELLOW") + "//////////////////////////////////////////////");
+        System.out.println("/////////////"+ printColor("RED") +" Mlamali SAIDSALIMO "+ printColor("YELLOW") +"/////////////");
+        System.out.println("////////////"+ printColor("RED") +"   Ari RAJAOEFERA   "+ printColor("YELLOW") +"//////////////");
+        System.out.println("///////////"+ printColor("RED") +"  Guillaume URVOY   "+ printColor("YELLOW") +"///////////////");
+        System.out.println("//////////"+ printColor("RED") +" Jonathan LOUAMBA   "+ printColor("YELLOW") +"////////////////");
         System.out.println("//////////////////////////////////////////////");
-        System.out.println("///////////// Mlamali SAIDSALIMO /////////////");
-        System.out.println("////////////   Ari RAJAOEFERA   //////////////");
-        System.out.println("///////////  Guillaume URVOY   ///////////////");
-        System.out.println("////////// Jonathan LOUAMBA   ////////////////");
+        System.out.println("////////"+ printColor("RESET") +" * BAR A COCKTAIL * "+ printColor("YELLOW") +"//////////////////");
         System.out.println("//////////////////////////////////////////////");
-        System.out.println("//////// * BAR A COCKTAIL * //////////////////");
-        System.out.println("//////////////////////////////////////////////");
-        System.out.println("//////  1 : BIENVENUE (CLIENT)   /////////////");
-        System.out.println("/////  ---                      //////////////");
-        System.out.println("////  2 : GESTION (BARMAN)     ///////////////");
-        System.out.println("//////////////////////////////////////////////");
-        System.out.print("// > ");
-      //int choix = SaisirInt(1,2,"");
+        System.out.println("//////"+ printColor("RESET") + "  1 : BIENVENUE (CLIENT)   "+ printColor("YELLOW") +"/////////////");
+        System.out.println("/////"+ printColor("RESET") +"  2 : GESTION (BARMAN)     "+ printColor("YELLOW") +"//////////////");
+        System.out.println("////  ---                      ///////////////");
+        System.out.println("///"+ printColor("RESET") +"  0 : QUITTER              "+ printColor("YELLOW") +"////////////////");
+        System.out.print("//"+ printColor("RESET") +" > ");
+      //int choix = SaisirInt(0,2,"");
 
         int choix = 1;
         ClearConsole();

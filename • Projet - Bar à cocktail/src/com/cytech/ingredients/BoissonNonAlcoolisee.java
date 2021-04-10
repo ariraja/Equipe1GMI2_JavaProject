@@ -19,10 +19,10 @@ public class BoissonNonAlcoolisee extends Boisson {
     }
     public String toString() {
         return "Boisson '" + this.getNom() + '\'' +
-                " | *CONTENU* : " + this.getContenance() +
-                "ml | *PRIX* : " + this.getPrix() +
-                " |  *SUCR* : " + this.getDegreSucre() +
-                "° ";
+                " | *DegSucre* : " + this.getDegreSucre() +
+                "° | *PRIX* : " + this.getPrix() +
+
+                "€ ";
     }
 
 }
