@@ -116,7 +116,7 @@ Boisson[] l = {a,c};
         catch (IOException e){
             e.printStackTrace();
         }
-        System.out.println("Commande n°" + id + " sauvegardée");
+        System.out.println("Stock de boisson màj");
     }
 
 
@@ -128,7 +128,8 @@ Boisson[] l = {a,c};
 
         //TODO fonction write json et qui écrit nouveau arraylist
         Boisson test =new Boisson("Eau",100,"#1586E0",0.0001);
-
+        Boisson_liste.add(test);
+        writeJSONBoisson(Boisson_liste);
         //JSONArray a = (JSONArray) parser.parse(new FileReader("boisson.json"));
        //JSONObject objet = (JSONObject) parser.parse(new FileReader("h:\\Documents\\Cours ING1 GM\\Semestre 2\\APOO\\Java\\Java Projet\\• Projet - Bar à cocktail\\boisson.json"));
 
