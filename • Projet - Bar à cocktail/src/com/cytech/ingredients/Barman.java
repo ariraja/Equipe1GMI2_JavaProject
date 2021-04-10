@@ -7,10 +7,12 @@ public class Barman {
     private static String prenomBarman = "Paul";
     private static String nomBarman = "Emile";
 
-    private static HashMap<Boisson, Integer> LeStock = new HashMap<Boisson, Integer>(); // ['nomboisson'] return quntité
+    // LE STOCK, de Boissons
+    private static HashMap<Boisson, Integer> LeStock = new HashMap<Boisson, Integer>(); // ['nomboisson'] return quantité
+    // LES Cocktails
     private static List<Cocktail> LesCocktails = new ArrayList<Cocktail>();
 
-    private static int nbCocktailsDispo;
+    private static int nbCocktailsDispo; // nb de Cocktails dispo // TODO LesCocktails.nbCocktailsDispo()
     private static int nbBoissonsDispo;
 
     public static int getQuantiteBoissonStock(Boisson b) {
@@ -68,7 +70,7 @@ public class Barman {
 
     }
     public static void TuVeuxQuoi() {
-        Commande maCommande = new Commande(1);
+        Commande maCommande = new Commande(1); // TODO date de ajd
         AfficherCatalogue(maCommande,"Le BAR","Qu'est ce qui vous ferai plaisir ?",true,true);
         System.out.println("  ---- \n (1 : Commander)     (2 : Créer mon propre Cocktail)      (0 : Quitter le bar) ");
 
@@ -76,7 +78,7 @@ public class Barman {
         //int choix = 2;
         if(choix == 1) Barman.SelectionnerBoisson(maCommande);
         else if(choix == 2) Barman.ComposerCocktail(maCommande);
-        else if(choix == 0) System.out.println("A bientot !");
+        else if(choix == 0) System.out.println("A bientot !"); // TODO fonction a bientot
 
     }
 
@@ -132,6 +134,8 @@ public class Barman {
             TuVeuxQuoi();
     }
 
+
+    // Afficher le contenu du bar, retourne une carte pour selectionné
     public static Map AfficherCatalogue(Commande maCommande,String Titre,String Notice, boolean okAffCocktail, boolean okAffQuantite) {
         MettreAJourDisponibiliteCocktails();
         Map CarteSelec = new HashMap(); int i = 1;
@@ -174,6 +178,7 @@ public class Barman {
 
     }
 
+    //
     public static void SelectionnerBoisson( Commande maCommande) { // selectionne une boisson parmi la liste de boisson et renvoie la boisson
         Map Carte = AfficherCatalogue(maCommande,"Le BAR","",true,true);
         int choix;
@@ -226,6 +231,7 @@ public class Barman {
         Barman.TuVeuxQuoi();
     }
 
+    // Valider Commander et sauvegarde
     public static void ValiderCommande(Commande maCommande) {
          System.out.println(" stock avant validation *** " + LeStock);
         // mettre a jour le stock

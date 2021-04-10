@@ -43,19 +43,19 @@ public class Main {
         Barman.TuVeuxQuoi();
 
     }
-    public static void ClearConsole() {
+    public static void ClearConsole() { // TODO
 
 
     }
     public static void main(String[] args) {
 
 
-        Boisson a = new Boisson("raja",100,"rouge",15);   Barman.AjouterBoissonAuStock(a,2);
-        Boisson b = new BoissonAlcoolisee("urvoy",250,"vert",15,5); Barman.AjouterBoissonAuStock(b,5);
-        Boisson c = new BoissonNonAlcoolisee("said",72,"rouge",15,1); Barman.AjouterBoissonAuStock(c,10);
+        Boisson a = new Boisson("Braja",100,"rouge",15);   Barman.AjouterBoissonAuStock(a,2);
+        Boisson b = new BoissonAlcoolisee("Burvoy",250,"vert",15,5); Barman.AjouterBoissonAuStock(b,5);
+        Boisson c = new BoissonNonAlcoolisee("Bsaid",72,"rouge",15,1); Barman.AjouterBoissonAuStock(c,10);
 
-        Cocktail coco1 = new Cocktail("coco1",11,new ArrayList<Boisson>( Arrays.asList(a,b,c ))); Barman.AjouterCocktailALaListe(coco1);
-        Cocktail coco2 = new Cocktail("coco2",22,new ArrayList<Boisson>( Arrays.asList(a,b)));Barman.AjouterCocktailALaListe(coco2);
+        Cocktail coco1 = new Cocktail("cococktail1",11,new ArrayList<Boisson>( Arrays.asList(a,b,c ))); Barman.AjouterCocktailALaListe(coco1);
+        Cocktail coco2 = new Cocktail("cocoCokctai2",22,new ArrayList<Boisson>( Arrays.asList(a,b)));Barman.AjouterCocktailALaListe(coco2);
 /*
         Barman.MettreAJourDisponibiliteCocktails();
         System.out.println(coco1.estDisponible());
@@ -68,7 +68,7 @@ public class Main {
         Barman.AfficherCatalogue();
 */
 
-        MENUPRINCIPALE();
+       MENUPRINCIPALE();
 
 
     }
