@@ -7,15 +7,51 @@ public class Barman {
     private static String prenomBarman = "Paul";
     private static String nomBarman = "Emile";
 
-    // LE STOCK, de Boissons
-    private static HashMap<Boisson, Integer> LeStock = new HashMap<Boisson, Integer>(); // ['nomboisson'] return quantité
-    // LES Cocktails
+
+    // Initialiser les Boissons en stock a partir du fichier JSON
+    public static void initBoissonsJSON() {
+        //**** GET LES BOISSONS
+        Boisson a = new BoissonAlcoolisee("Braja","rouge",0.02,52);
+        Boisson b = new BoissonAlcoolisee("Burvoy","bleu",0.05,70);
+        Boisson c = new BoissonNonAlcoolisee("BSaid","vert",0.3,24);
+
+        Barman.AjouterBoissonAuStock(a,2);
+        Barman.AjouterBoissonAuStock(b,5);
+        Barman.AjouterBoissonAuStock(c,10);
+
+    }
+    // initialiser les Coktails a partir du fichier JSON
+    public static void initCocktailsJSON() { // Cette fonction est a modif
+
+        Boisson a = new BoissonAlcoolisee("Braja","rouge",0.02,52);
+        Boisson b = new BoissonAlcoolisee("Burvoy","bleu",0.05,70);
+        Boisson c = new BoissonNonAlcoolisee("BSaid","vert",0.3,24);
+
+        //**** GET LES COCKTAILS
+        HashMap<Boisson, Double> recette = new HashMap<Boisson, Double>();
+        recette.put(a,5.0);
+        recette.put(b,22.5);
+        Cocktail coco1 = new Cocktail("coco1",recette);
+        Barman.AjouterCocktailALaListe(coco1);
+
+        HashMap<Boisson, Double> recette2 = new HashMap<Boisson, Double>();
+        recette2.put(a,150.0);
+        recette2.put(c,50.0);
+        Cocktail coco2 = new Cocktail("coco2",recette2);
+        Barman.AjouterCocktailALaListe(coco2);
+
+    }
+    private static HashMap<Boisson, Integer> LeStock = new HashMap<Boisson, Integer>(); // ['nomboisson'] return quntité
+
+
+
     private static List<Cocktail> LesCocktails = new ArrayList<Cocktail>();
 
-    private static int nbCocktailsDispo; // nb de Cocktails dispo // TODO LesCocktails.nbCocktailsDispo()
-    private static int nbBoissonsDispo;
 
-    public static int getQuantiteBoissonStock(Boisson b) {
+
+
+
+    public static int getQuantiteDUneBoissonStock(Boisson b) {
         if(LeStock.containsKey(b) ){
             int qte =  LeStock.get(b);
             return qte;
@@ -74,76 +110,143 @@ public class Barman {
         AfficherCatalogue(maCommande,"Le BAR","Qu'est ce qui vous ferai plaisir ?",true,true);
         System.out.println("  ---- \n (1 : Commander)     (2 : Créer mon propre Cocktail)      (0 : Quitter le bar) ");
 
-        int choix = Main.SaisirInt(0,2,"");
-        //int choix = 2;
+        //int choix = Main.SaisirInt(0,2,"");
+        int choix = 2;
         if(choix == 1) Barman.SelectionnerBoisson(maCommande);
         else if(choix == 2) Barman.ComposerCocktail(maCommande);
         else if(choix == 0) System.out.println("A bientot !"); // TODO fonction a bientot
 
     }
+    private static Double SommeArray(Collection<Double> t) {
+        double res = 0.0;
 
+        for( double d : t)
+            res += d;
+
+        return res;
+
+    }
+
+    private static void AfficherRecette(HashMap<Boisson, Double> recette) {
+    String res = " ~# Vos Ingrédients : ";
+    ArrayList<Boisson> Bs = new ArrayList<Boisson>(recette.keySet());
+    ArrayList<Double> Qs = new ArrayList<Double>(recette.values());
+    int n = Bs.size();
+    for(int i = 0; i < n-1; i++) {
+        res += Bs.get(i).getNom() + " (" + Qs.get(i) + "%) - ";
+    }
+    res += Bs.get(n-1).getNom()+ " (" + Qs.get(n-1) + "%)";;
+    System.out.println(res);
+
+}
+
+    private static HashMap<Boisson, Double> NormaliserRecette(HashMap<Boisson, Double> recette) {
+        double Total = 0.0;
+        for(Boisson b : recette.keySet()) {
+            Total += recette.get(b);
+        }
+        if(Total != 0) {
+            for (Boisson b : recette.keySet()) {
+                recette.put(b, recette.get(b) / Total * 100);
+            }
+            return recette;
+        } else {
+            return recette;
+        }
+
+    }
     private static void ComposerCocktail(Commande maCommande) {
-        Map Carte = AfficherCatalogue(maCommande,"INGREDIENTS","De quoi sera composer votre cocktail ? (2 boissons minimum)",false,false);int choix;boolean encore = true;
-        List<Boisson> listeIngredient = new ArrayList<>();
+        Map Carte;
+        int choix;
+        double Combien;
+        double maxPourc = 100;
+        double PourcTotalDeja = 0.0;
+        boolean encore = true;
+    //    ArrayList<Boisson> IngredientBoissons = new  ArrayList<Boisson>(); // Listes des ingrédient
+     //   ArrayList<Double> IngredientQuantityMl = new  ArrayList<Double>(); // Listes des Ml
+        HashMap<Boisson, Double> recette = new HashMap<Boisson, Double>();
 
-            while( listeIngredient.size() < nbBoissonsDispo ) {
+        while(encore) {
+            Carte = AfficherCatalogue(maCommande,"INGREDIENTS","De quoi sera composer votre cocktail ? (2 boissons minimum)",false,false);
+            if(recette.size() > 0) {
+                System.out.println("  ----"); AfficherRecette(recette);
+            }
 
-                 do {
-                    System.out.println("  ---- \n (# : Entrer le numéro de la boisson)             (0 : RETOUR)  ");
-                    System.out.print("  > ");
-                    choix = Main.SaisirInt(0, Carte.size(), "");
-                     if(listeIngredient.contains((Boisson) Carte.get(choix))){
-                         System.out.print(" /!\\ Vous avez déjà choisi cette boisson.. ");
-                         //AfficherCatalogue(maCommande,"INGREDIENTS","De quoi sera composer votre cocktail ? (2 boissons minimum)",false,false);
-                     }
-                } while(listeIngredient.contains((Boisson) Carte.get(choix)));
+            /*** Saisie de la Boisson ***/
+            System.out.println("  ---- \n (# : Entrer le numéro de la boisson)             (0 : RETOUR)  ");
+            System.out.print("  > ");
+            choix = Main.SaisirInt(0, Carte.size(), "");
 
-                if (choix != 0) {
+            // si il n'a pas cliquer sur retour
+            if (choix != 0) {
+                PourcTotalDeja = SommeArray( recette.values());
+                /*** Saisie de la Qté ***/
+                maxPourc = (100.0-PourcTotalDeja);
+                System.out.println("  ---- \n Combien de % ? [0-" + maxPourc + "]");
+                System.out.print("  > ");
+
+                Combien = (double) Main.SaisirDouble(0, maxPourc, "entre 0 et " + maxPourc + "%");
+
+                // ajouter a la recette
+                if(recette.containsKey((Boisson) Carte.get(choix))) {
+                    recette.put((Boisson) Carte.get(choix),  recette.get((Boisson) Carte.get(choix)) + Combien );
+                } else {
+                    recette.put((Boisson) Carte.get(choix),Combien);
+                }
+
+                PourcTotalDeja = SommeArray( recette.values());
 
 
+                // ** il faut au moins 2 Ingrédient
+                if ( recette.size() > 1) {
 
 
-                    listeIngredient.add((Boisson) Carte.get(choix));
-                    System.out.println(" ~# Vos Ingrédients  " + listeIngredient);
-                    // ** quand on a saisie moins de 1
-                    if(listeIngredient.size() > 1)  {
-                        if(!(listeIngredient.size() == nbBoissonsDispo)) {
-                            System.out.println("  ---- \n (1 : CONTINUER AJOUTER)   (2 : CREER MON COCKTAIL)         (0 : ANNULER)  ");
-                            choix = Main.SaisirInt(0, 2, "");
-                        }
-                        else {
-                            System.out.println("  ---- \n                           (2 : CREER MON COCKTAIL)         (0 : ANNULER)  ");
-                            choix = Main.SaisirInt(0, 2, "");
-                            if(choix== 1)choix = 2;
-                        }
-                        if (choix == 0) TuVeuxQuoi();
-                        else if (choix == 2) {
-                            System.out.print(" un nom > ");
-                            String unnom = Main.SaisirString("");
-                            Cocktail newCoco = new Cocktail(unnom, 25, listeIngredient);
-                            Barman.AjouterCocktailALaListe(newCoco);
-                            TuVeuxQuoi(); // retour au menu principale quoi
-                        }
+                    // 4 ingrédient max et 200ml maximum
+                    if ( recette.size() < 4 && PourcTotalDeja < 100 ) {
+                        AfficherRecette(recette);
+                        System.out.println("  ---- \n (1 : CONTINUER AJOUTER)   (2 : CREER MON COCKTAIL)         (0 : ANNULER)  ");
+                        choix = Main.SaisirInt(0, 2, "");
+                    }
+                    // On ne propose plus de ajouter
+                    else {
+                        AfficherRecette(recette);
+                        System.out.println("  ---- \n                           (2 : CREER MON COCKTAIL)         (0 : ANNULER)  ");
+                        choix = Main.SaisirInt(0, 2, "");
+                        if (choix == 1) choix = 2;
                     }
 
-                } else {
-                    TuVeuxQuoi();
+                    /*** CREATION ET AJOUT DU COCKTAIL ***/
+                    if (choix == 2) {
+                        /*** Saisie de la Qté ***/
+                        System.out.println("  ---- \n Donner un nom à votre cocktail  ");
+                        System.out.print("  > ");
+                        String Nom = Main.SaisirString("veuillez saisir un prénom correct");
+                        recette = NormaliserRecette(recette);
+                        Cocktail newC = new Cocktail(Nom, recette);
+                        AfficherRecette(recette);
+                        System.out.println(newC);
+                        AjouterCocktailALaListe(newC); // ajouter le nouveau cocktail créer a la liste
+                        Barman.TuVeuxQuoi(); // Retour au menu
+                    } else if (choix == 0) {
+                        Barman.TuVeuxQuoi(); // Retour au menu
+                    }
+
                 }
+
+
             }
-            System.out.println("c trop");
-            TuVeuxQuoi();
+        }
     }
 
 
     // Afficher le contenu du bar, retourne une carte pour selectionné
     public static Map AfficherCatalogue(Commande maCommande,String Titre,String Notice, boolean okAffCocktail, boolean okAffQuantite) {
-        MettreAJourDisponibiliteCocktails();
         Map CarteSelec = new HashMap(); int i = 1;
         System.out.println("///////////////// " + Notice);
         System.out.println(String.format("//////  -*-* %s *-*- ///////////////////////// \n",Titre));
-        if(nbBoissonsDispo + nbCocktailsDispo > 0) {
+        if(Barman.getNbBoissonsDispo() + Barman.getNbCocktailsDispo() > 0) {
             if(okAffCocktail) {
-                System.out.println(" #### Nos Cocktails : " + nbCocktailsDispo + "/" + LesCocktails.size());
+                System.out.println(" #### Nos Cocktails : " + Barman.getNbCocktailsDispo()+ "/" + LesCocktails.size());
                 for (Cocktail c : LesCocktails) {
                     //System.out.println(c.estDisponible());
                     if (c.estDisponible()) {
@@ -153,7 +256,7 @@ public class Barman {
                     }
                 }
             }
-            System.out.println(" #### Nos Boissons : " + nbBoissonsDispo + "/" + LeStock.size());
+            System.out.println(" #### Nos Boissons : " + Barman.getNbBoissonsDispo() + "/" + LeStock.size());
             for (Boisson b : LeStock.keySet()) {
                 int fois = LeStock.get(b) - maCommande.getQuantiteBoisson(b);
                 if (fois > 0) {
@@ -194,8 +297,8 @@ public class Barman {
 
             int maxCombien= 1000;
 
-            if (choix > nbCocktailsDispo) {
-                maxCombien = getQuantiteBoissonStock((Boisson) Carte.get(choix));
+            if (choix > Barman.getNbCocktailsDispo()) {
+                maxCombien = getQuantiteDUneBoissonStock((Boisson) Carte.get(choix));
                 maxCombien -= maCommande.getQuantiteBoisson((Boisson) Carte.get(choix));
             }
             System.out.println(" max*** " + maxCombien);
@@ -241,22 +344,27 @@ public class Barman {
              }
          }
          // mettre à jour La disponibilité des cocktails
-        MettreAJourDisponibiliteCocktails();System.out.println(" stock apres validation *** " + LeStock);
+        System.out.println(" stock apres validation *** " + LeStock);
         Barman.TuVeuxQuoi();
     }
 
-    public static void MettreAJourDisponibiliteCocktails() {
-        nbCocktailsDispo = 0;
+
+    public static int getNbCocktailsDispo() {
+        int nbCocktailsDispo = 0;
         for(Cocktail c : LesCocktails) {
             c.majDispo(LeStock);
             if(c.estDisponible()) nbCocktailsDispo++;
         }
-        nbBoissonsDispo = 0;
+        return nbCocktailsDispo;
+    }
+    public static int getNbBoissonsDispo() {
+        int nbBoissonsDispo = 0;
         for(Boisson b : LeStock.keySet()) {
-           // System.out.println(" ---------------------------------" +LeStock.get(b));
+            // System.out.println(" ---------------------------------" +LeStock.get(b));
             if(LeStock.get(b) > 0) nbBoissonsDispo++;
         }
-
+        return nbBoissonsDispo;
     }
+
 
 }
