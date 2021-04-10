@@ -2,7 +2,6 @@ package com.cytech.ingredients;
 
 public class BoissonNonAlcoolisee extends Boisson {
 
-
     private double degreSucre;
 
     public BoissonNonAlcoolisee(String nom, double contenance, String couleur, double prix, double sucre) {

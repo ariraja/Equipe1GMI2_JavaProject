@@ -4,14 +4,15 @@ import java.util.Objects;
 
 public class Boisson extends BoissonMere {
 
-    private double prixAchat = 10;
+    private double prixB = 10; // prix d'achat
 
+    // Contructeur
     public Boisson(String nom, double contenance, String couleur, double prix) {
         super(nom, contenance, couleur);
-        this.prixAchat = prix;
+        this.prixB = prix;
     }
 
-
+    // Contructeur 2, si il met pas le prix (à supprimer en vrai)
     public Boisson(String nom, double contenance, String couleur) {
         super(nom, contenance, couleur);
 
@@ -28,7 +29,7 @@ public class Boisson extends BoissonMere {
 
     @Override
     public int hashCode() {
-        return Objects.hash(prixAchat);
+        return Objects.hash(prixB);
     }
 
     @Override
@@ -38,9 +39,12 @@ public class Boisson extends BoissonMere {
                 "€ ";
     }
 
+    // retouner prix de la boisson
     public double getPrix() { // le prix change en fct du contenu
-        return this.prixAchat;
+        return this.prixB;
     }
+
+    //
 
 
 }

@@ -3,14 +3,16 @@ package com.cytech.ingredients;
 import java.util.*;
 
 public class Commande {
-    private int idc;
+    private int idc; // identifiant de la commande // TODO date heure de ajd
     private HashMap<Boisson, Integer> commandeBoissons = new HashMap<Boisson, Integer>();
     private HashMap<Cocktail, Integer> commandeCocktails = new HashMap<Cocktail, Integer>();
 
+    // Contructeur
     public Commande(int idc) {
         this.idc = idc;
     }
 
+    // Ajouter un object dans la commande
     public void Ajouter(Object o, int cb ) {
         String cla = o.getClass().getSimpleName();
         List lb = Arrays.asList(new String[] {"Boisson","BoissonAlcoolisee","BoissonNonAlcoolisee"});
@@ -42,22 +44,31 @@ public class Commande {
         }
     }
 
+    // Retourner liste Boisson de la commande
     public Set<Boisson> getListeBoissons() {
         return this.commandeBoissons.keySet();
     }
+    // Retourner liste Cocktails commande
     public Set<Cocktail> getListeCocktails() {
         return this.commandeCocktails.keySet();
     }
 
+    // Returner Nombre Boissons
     public int getNbBoissonsTOTAL() {
         return this.commandeBoissons.size();
     }
+
+    // Returner Nombre de Cocktails
     public int getNbCocktailsTOTAL() {
         return this.commandeCocktails.size();
     }
+
+    // Est ce que la commande est vide
     public boolean estVide() {
         return ((this.getNbBoissonsTOTAL() + this.getNbCocktailsTOTAL()) == 0);
     }
+
+    // Retourne la Quantité d'une boisson dans la commande
     public int getQuantiteBoisson(Boisson b) {
         if(this.commandeBoissons.containsKey(b) ){
             int qte = this.commandeBoissons.get(b);
@@ -66,6 +77,8 @@ public class Commande {
             return 0;
         }
     }
+
+    // Retourne la Quantité d'un cocktails dans la commande
     public int getQuantiteCocktail(Cocktail c) {
         if(this.commandeCocktails.containsKey(c) ){
             int qte = this.commandeCocktails.get(c);
@@ -75,6 +88,7 @@ public class Commande {
         }
     }
 
+    // Afficher la Commande a lecran
     public Map Afficher() {
         Map Dico = new HashMap();
         int i = 0;
@@ -99,6 +113,7 @@ public class Commande {
         return Dico;
     }
 
+    // Calculer prix totale
     public double CalculPrixTotal() {
         double res = 0.0;
         if(this.getNbCocktailsTOTAL() > 0) {
@@ -117,6 +132,8 @@ public class Commande {
         return res;
     }
 
+
+    // Supprimer la commande
     public void Supprimer() {
         this.commandeCocktails.clear();
         this.commandeBoissons.clear();

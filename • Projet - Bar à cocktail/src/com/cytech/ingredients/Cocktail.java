@@ -2,11 +2,10 @@ package com.cytech.ingredients;
 
 import java.util.*;
 
-
 public class Cocktail extends BoissonMere{
 
-    private boolean dispo = false;
-    private List<Boisson> listeComposantsBoisson; // changer ça en MAP
+    private boolean dispo = false; // disponibilité (depend des boissons en stock)
+    private List<Boisson> listeComposantsBoisson; // changer ça en MAP [Boisson] = 100ml
 
 
     public Cocktail(String nom, double contenance, List<Boisson> listeComposants) {
@@ -47,7 +46,8 @@ public class Cocktail extends BoissonMere{
         return res;
     }
 
-    public double getPrix() {
+    // retourner prix en fonctions des composants
+    public double getPrix() { // TODO
         double res = 0;
         for(Boisson b : this.listeComposantsBoisson)
             res += b.getPrix();
@@ -55,12 +55,18 @@ public class Cocktail extends BoissonMere{
         res = (double) Math.round(res * 100) / 100;
         return res;
     }
+
+    // retourner composants du cocktails // TODO
     public List<Boisson> getComposants() {
         return this.listeComposantsBoisson;
     }
+
+    // retourner degre de alcool du cocktail // TODO
     public double getDegreAlcool() {
         return 0.0;
     }
+
+    // retourner degre de sucre du cocktail // TODO
     public double getDegreSucre() {
         return 0.0;
     }
