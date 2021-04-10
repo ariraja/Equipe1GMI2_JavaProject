@@ -1,19 +1,27 @@
 package com.cytech.ingredients;
 
+import java.util.HashMap;
+
 public class Test {
 
     public static void testBoisson() {
         // creer un boisson et afficher un boisson
         //creer un coktail et afficher un cocktail
-        Boisson a = new Boisson("raja",1000,"rouge",15);
-        System.out.println(a);
-        Boisson b = new BoissonAlcoolisee("urvoy",5,"vert",15,5);
-        System.out.println(b);
-        Boisson c = new BoissonNonAlcoolisee("said",100,"rouge",15,1);
-        System.out.println(c);
-Boisson[] l = {a,c};
-//Cocktail cc = new Cocktail("coco",0,"bleu",l);
-//System.out.println(cc);
+        Boisson a = new BoissonAlcoolisee("Braja","rouge",0.02,52);
+        Boisson b = new BoissonAlcoolisee("Burvoy","bleu",0.05,70);
+        Boisson c = new BoissonNonAlcoolisee("BSaid","vert",0.3,24);
+       // System.out.println(b);
+        //System.out.println(c);
+
+        Boisson[] ListB = {a,b,c};
+
+        HashMap<Boisson, Double> recette = new HashMap<Boisson, Double>();
+        recette.put(a,50.0);
+        recette.put(b,50.0);
+        Cocktail coco1 = new Cocktail("Cocktail One",recette);
+        System.out.println(coco1);
+
+
     }
 
     public static void testCocktail() {

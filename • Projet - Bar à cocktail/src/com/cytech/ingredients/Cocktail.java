@@ -1,17 +1,19 @@
 package com.cytech.ingredients;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import java.util.*;
 
 
 public class Cocktail extends BoissonMere{
 
     private boolean dispo = false;
-    private List<Boisson> listeComposantsBoisson; // changer ça en MAP
+    private HashMap<Boisson, Double> listeComposantsBoisson; // changer ça en MAP
 
 
-    public Cocktail(String nom, double contenance, List<Boisson> listeComposants) {
-
-        super(nom, contenance, listeComposants.get(0).getCouleur());
+    public Cocktail(String nom, HashMap<Boisson, Double> listeComposants) {
+        super(nom, 200,new ArrayList<Boisson>(listeComposants.keySet()).get(0).getCouleur()); // TODO couleur
         this.listeComposantsBoisson = listeComposants;
     }
 
@@ -21,7 +23,7 @@ public class Cocktail extends BoissonMere{
     public void majDispo(HashMap<Boisson, Integer> B_stock) {
         boolean ok = true;
         //System.out.println(Arrays.toString(this.listeComposantsBoisson));
-         for(Boisson comp : this.listeComposantsBoisson) {
+         for(Boisson comp : this.listeComposantsBoisson.keySet()) {
              if(!B_stock.containsKey(comp)  ) { // si le composant n'est pas présent
                  ok = false;
              } else if( B_stock.get(comp) <= 0 ){
@@ -36,11 +38,17 @@ public class Cocktail extends BoissonMere{
 
     @Override
     public String toString() {
-        String res = "Cocktail '" + this.getNom() + '\'' +
-                ", (" + this.getContenance() + "ml) ---> " + this.getPrix() +
-                "€ ";
+        String res = "Coktail '" + this.getNom() + '\''  + " | *PRIX* : " + this.getPrix() +
+                "€ |";
+        if(this.getDegreAlcool() > 0) {
+            res += " *DegALCOOL* : " +  this.getDegreAlcool() + "° |";
+        }
+        if(this.getDegreAlcool() > 0) {
+            res += " *DegSUCRE* " +  this.getDegreSucre() + "° |";
+        }
+
         res += " (";
-        for(Boisson b : this.listeComposantsBoisson)
+        for(Boisson b : this.listeComposantsBoisson.keySet())
             res += "'" + b.getNom() +"',";
         res = res.substring(0,res.length()-1);
         res += ")";
@@ -49,21 +57,66 @@ public class Cocktail extends BoissonMere{
 
     public double getPrix() {
         double res = 0;
-        for(Boisson b : this.listeComposantsBoisson)
+        for(Boisson b : this.listeComposantsBoisson.keySet())
             res += b.getPrix();
         res *= 1.1;
         res = (double) Math.round(res * 100) / 100;
         return res;
     }
-    public List<Boisson> getComposants() {
-        return this.listeComposantsBoisson;
+    public Set<Boisson> getComposants() {
+        return this.listeComposantsBoisson.keySet();
     }
     public double getDegreAlcool() {
-        return 0.0;
+        double res = 0.0;
+       double qteAlcoolTotal = 0.0; // nb de boisson avec de lalcool
+        for(Boisson b : this.listeComposantsBoisson.keySet()) {
+            String cla = b.getClass().getSimpleName();
+
+            // si la boisson est un alcoolisee alors
+            if(cla.equals("BoissonAlcoolisee")) {
+                BoissonAlcoolisee Ba = (BoissonAlcoolisee) b;
+                res += Ba.getDegreAlcool()* this.listeComposantsBoisson.get(b); // le degré pondéré par la dose en ml
+                qteAlcoolTotal += this.listeComposantsBoisson.get(b);
+            }
+        }
+        if(qteAlcoolTotal > 0.0) {
+            res = res / qteAlcoolTotal;
+            BigDecimal bd = new BigDecimal(res).setScale(2, RoundingMode.HALF_UP);
+ res = bd.doubleValue();
+            return res;
+        }
+        else
+            return res;
+
     }
     public double getDegreSucre() {
-        return 0.0;
-    }
+        double res = 0.0;
+        double qteSucreTotal = 0.0; // nb de boisson avec de lalcool
+        for(Boisson b : this.listeComposantsBoisson.keySet()) {
+            String cla = b.getClass().getSimpleName();
 
+            // si la boisson est un alcoolisee alors
+            if(cla.equals("BoissonNonAlcoolisee")) {
+                BoissonNonAlcoolisee Ba = (BoissonNonAlcoolisee) b;
+                res += Ba.getDegreSucre()* this.listeComposantsBoisson.get(b); // le degré pondéré par la dose en ml
+                qteSucreTotal += this.listeComposantsBoisson.get(b);
+            }
+        }
+        if(qteSucreTotal > 0.0) {
+            res = res / qteSucreTotal;
+            BigDecimal bd = new BigDecimal(res).setScale(2, RoundingMode.HALF_UP);
+            res = bd.doubleValue();
+            return res;
+        }
+        else
+            return res;
+    }
+    public double getContenu() {
+        double res = 0.0;
+        double qteAlcoolTotal = 0.0; // nb de boisson avec de lalcool
+        for(double b : this.listeComposantsBoisson.values())
+            res += b;
+        return res;
+    }
 
 }

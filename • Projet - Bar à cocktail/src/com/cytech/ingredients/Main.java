@@ -1,6 +1,7 @@
 package com.cytech.ingredients;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.io.IOException;
 
@@ -16,8 +17,20 @@ public class Main {
         int value = sc.nextInt();
 
         while((value < a) || (value > b)) {
-            if ((value < a) || (value > b)) System.out.print(" /!\\ Veuillez resaisir.. " + error_mess);
+            if ((value < a) || (value > b)) System.out.print(" /!\\ Veuillez resaisir.. " + error_mess + " > ");
             value = sc.nextInt();
+
+        }
+
+        return value;
+    }
+    public static double SaisirDouble(double a, double b,String error_mess) { // saisir un entier entre a et b inclus
+        Scanner sc = new Scanner(System.in);
+        double value = sc.nextDouble();
+
+        while((value < a) || (value > b)) {
+            if ((value < a) || (value > b)) System.out.print(" /!\\ Veuillez resaisir.. " + error_mess+ " > ");
+            value = sc.nextDouble();
 
         }
         return value;
@@ -37,8 +50,12 @@ public class Main {
         System.out.println("////  2 : GESTION (BARMAN)     ///////////////");
         System.out.println("//////////////////////////////////////////////");
         System.out.print("// > ");
-        int choix = SaisirInt(1,2,"");
+      //int choix = SaisirInt(1,2,"");
+
+        int choix = 1;
         ClearConsole();
+        Barman.initBoissonsJSON();
+        Barman.initCocktailsJSON();
         Barman.SePresenter();
         Barman.TuVeuxQuoi();
 
@@ -50,26 +67,7 @@ public class Main {
     public static void main(String[] args) {
 
 
-        Boisson a = new Boisson("raja",100,"rouge",15);   Barman.AjouterBoissonAuStock(a,2);
-        Boisson b = new BoissonAlcoolisee("urvoy",250,"vert",15,5); Barman.AjouterBoissonAuStock(b,5);
-        Boisson c = new BoissonNonAlcoolisee("said",72,"rouge",15,1); Barman.AjouterBoissonAuStock(c,10);
-
-        Cocktail coco1 = new Cocktail("coco1",11,new ArrayList<Boisson>( Arrays.asList(a,b,c ))); Barman.AjouterCocktailALaListe(coco1);
-        Cocktail coco2 = new Cocktail("coco2",22,new ArrayList<Boisson>( Arrays.asList(a,b)));Barman.AjouterCocktailALaListe(coco2);
-/*
-        Barman.MettreAJourDisponibiliteCocktails();
-        System.out.println(coco1.estDisponible());
-        Barman.AfficherCatalogue();
-
-        Barman.RetirerBoissonDuStock(b,5);
-
-        System.out.println(coco1.estDisponible());
-
-        Barman.AfficherCatalogue();
-*/
-
-        MENUPRINCIPALE();
-
+      MENUPRINCIPALE();
 
     }
 }
