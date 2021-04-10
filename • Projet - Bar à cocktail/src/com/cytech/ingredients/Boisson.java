@@ -10,6 +10,7 @@ public abstract class Boisson extends BoissonMere {
 
 
     public Boisson(String nom, String couleur, double prixml, double contenance) {
+
         super(nom, contenance, couleur);
         this.prixMl = prixml;
     }
@@ -30,7 +31,9 @@ public abstract class Boisson extends BoissonMere {
 
     @Override
     public int hashCode() {
+
         return Objects.hash(prixMl);
+
     }
 
     @Override
@@ -40,7 +43,9 @@ public abstract class Boisson extends BoissonMere {
                 "€ ";
     }
 
+    // retouner prix de la boisson
     public double getPrix() { // le prix change en fct du contenu
+
         return this.prixMl*this.getContenance();
     }
 

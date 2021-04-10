@@ -7,6 +7,7 @@ public class Barman {
     private static String prenomBarman = "Paul";
     private static String nomBarman = "Emile";
 
+
     // Initialiser les Boissons en stock a partir du fichier JSON
     public static void initBoissonsJSON() {
         //**** GET LES BOISSONS
@@ -45,6 +46,7 @@ public class Barman {
 
 
     private static List<Cocktail> LesCocktails = new ArrayList<Cocktail>();
+
 
 
 
@@ -104,7 +106,7 @@ public class Barman {
 
     }
     public static void TuVeuxQuoi() {
-        Commande maCommande = new Commande(1);
+        Commande maCommande = new Commande(1); // TODO date de ajd
         AfficherCatalogue(maCommande,"Le BAR","Qu'est ce qui vous ferai plaisir ?",true,true);
         System.out.println("  ---- \n (1 : Commander)     (2 : Créer mon propre Cocktail)      (0 : Quitter le bar) ");
 
@@ -112,7 +114,7 @@ public class Barman {
         int choix = 2;
         if(choix == 1) Barman.SelectionnerBoisson(maCommande);
         else if(choix == 2) Barman.ComposerCocktail(maCommande);
-        else if(choix == 0) System.out.println("A bientot !");
+        else if(choix == 0) System.out.println("A bientot !"); // TODO fonction a bientot
 
     }
     private static Double SommeArray(Collection<Double> t) {
@@ -236,6 +238,8 @@ public class Barman {
         }
     }
 
+
+    // Afficher le contenu du bar, retourne une carte pour selectionné
     public static Map AfficherCatalogue(Commande maCommande,String Titre,String Notice, boolean okAffCocktail, boolean okAffQuantite) {
         Map CarteSelec = new HashMap(); int i = 1;
         System.out.println("///////////////// " + Notice);
@@ -277,6 +281,7 @@ public class Barman {
 
     }
 
+    //
     public static void SelectionnerBoisson( Commande maCommande) { // selectionne une boisson parmi la liste de boisson et renvoie la boisson
         Map Carte = AfficherCatalogue(maCommande,"Le BAR","",true,true);
         int choix;
@@ -329,6 +334,7 @@ public class Barman {
         Barman.TuVeuxQuoi();
     }
 
+    // Valider Commander et sauvegarde
     public static void ValiderCommande(Commande maCommande) {
          System.out.println(" stock avant validation *** " + LeStock);
         // mettre a jour le stock

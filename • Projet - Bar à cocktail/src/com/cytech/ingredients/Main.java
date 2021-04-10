@@ -60,14 +60,16 @@ public class Main {
         Barman.TuVeuxQuoi();
 
     }
-    public static void ClearConsole() {
+    public static void ClearConsole() { // TODO
 
 
     }
     public static void main(String[] args) {
 
 
+
       MENUPRINCIPALE();
+
 
     }
 }

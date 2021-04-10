@@ -5,11 +5,12 @@ import java.math.RoundingMode;
 
 import java.util.*;
 
-
 public class Cocktail extends BoissonMere{
+
 
     private boolean dispo = false;
     private HashMap<Boisson, Double> listeComposantsBoisson; // changer ça en MAP
+
 
 
     public Cocktail(String nom, HashMap<Boisson, Double> listeComposants) {
@@ -55,7 +56,8 @@ public class Cocktail extends BoissonMere{
         return res;
     }
 
-    public double getPrix() {
+    // retourner prix en fonctions des composants
+    public double getPrix() { // TODO
         double res = 0;
         for(Boisson b : this.listeComposantsBoisson.keySet())
             res += b.getPrix();
@@ -63,9 +65,13 @@ public class Cocktail extends BoissonMere{
         res = (double) Math.round(res * 100) / 100;
         return res;
     }
+
     public Set<Boisson> getComposants() {
         return this.listeComposantsBoisson.keySet();
+
     }
+
+    // retourner degre de alcool du cocktail // TODO
     public double getDegreAlcool() {
         double res = 0.0;
        double qteAlcoolTotal = 0.0; // nb de boisson avec de lalcool
@@ -89,6 +95,8 @@ public class Cocktail extends BoissonMere{
             return res;
 
     }
+
+    // retourner degre de sucre du cocktail // TODO
     public double getDegreSucre() {
         double res = 0.0;
         double qteSucreTotal = 0.0; // nb de boisson avec de lalcool
