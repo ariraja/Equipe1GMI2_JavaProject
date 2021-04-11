@@ -80,6 +80,8 @@ public class Main {
             Barman.initBoissonsJSON();
             Barman.initCocktailsJSON();
             Barman.JeGere();
+        } else {
+            System.exit(1);
         }
     }
 

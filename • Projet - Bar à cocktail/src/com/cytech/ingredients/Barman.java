@@ -569,9 +569,12 @@ public class Barman {
                 if (choix == 1) {
                     System.out.println(" (# : Entrer le numéro de la boisson à augmenter)          (0 : Retour)");
                     choix = Main.SaisirInt(0, Carte.size(), "une bonne chiffre pour selectionner une boisson.. ou saisissez 0 pour faire retour");
-                    System.out.println(" ~# " + ((Boisson) Carte.get(choix)).getNom() );
-                    System.out.print(" * En ajouter combien > "); int cb = Main.SaisirInt(0, 1000, "n'abuse pas..");
-                    Barman.AjouterQteBoissonAuStock((Boisson) Carte.get(choix),cb);
+                    if(choix != 0) {
+                        System.out.println(" ~# " + ((Boisson) Carte.get(choix)).getNom());
+                        System.out.print(" * En ajouter combien > ");
+                        int cb = Main.SaisirInt(0, 1000, "n'abuse pas..");
+                        Barman.AjouterQteBoissonAuStock((Boisson) Carte.get(choix), cb);
+                    }
                     choix = 1;
                 }
                 //** Ajouter nouvelle boisson, avec quantité
@@ -596,19 +599,22 @@ public class Barman {
 
                     Barman.AjouterQteBoissonAuStock(newB,cb);
                     System.out.println("                                                  (0 : Retour)");
-                    choix = Main.SaisirInt(1,000,"");
+                    String valide = Main.SaisirString("");
                     choix = 1;
                 }
                 //** Supprimer une boisson
                 else if (choix == 3) {
                     System.out.println(" (# : Entrer le numéro de la boisson à supprimer)          (0 : Retour)");
-                    choix = Main.SaisirInt(0, Carte.size(), "une bonne chiffre pour selectionner une boisson.. ou saisissez 0 pour faire retour");
-                    System.out.println(" ~# " + ((Boisson) Carte.get(choix)).getNom() );
-                    System.out.print(" * (1 : OUI, SUPPRIMER)   (0 : ANNULER)  > "); choix = Main.SaisirInt(0, 1, "");
+                    int choixSuppr = Main.SaisirInt(0, Carte.size(), "une bonne chiffre pour selectionner une boisson.. ou saisissez 0 pour faire retour");
+                    if(choix != 0) {
+                        System.out.println(" ~# " + ((Boisson) Carte.get(choixSuppr)).getNom());
+                        System.out.print(" * (1 : OUI, SUPPRIMER)   (0 : ANNULER)  > ");
+                        choix = Main.SaisirInt(0, 1, "");
 
-                    if(choix == 1) {
-                        // delete
-                        RemoveBoissonDuStock((Boisson) Carte.get(choix));
+                        if (choix == 1) {
+                            // delete
+                            RemoveBoissonDuStock((Boisson) Carte.get(choixSuppr));
+                        }
                     }
                     choix = 1;
                 }
@@ -633,7 +639,7 @@ public class Barman {
                 //** Supprimer cocktails
                 System.out.println(" (# : Entrer le numéro du Cocktails à supprimer)          (0 : Retour)");
                 choix = Main.SaisirInt(0, Carte.size(), "une bonn chiffre pour selectionner le cocktail.. ou saisissez 0 pour faire retour");
-                if(Carte.get(choix) != null) {
+                if(choix != 0) {
                     System.out.println(" ~# " + ((Cocktail) Carte.get(choix)).getNom());
                     System.out.print(" * (1 : OUI, SUPPRIMER)   (0 : ANNULER)  > ");
                     choix = Main.SaisirInt(0, 1, "");
