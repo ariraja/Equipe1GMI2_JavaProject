@@ -101,8 +101,8 @@ public class Commande {
     public Map Afficher() {
         Map Dico = new HashMap();
         int i = 0;
-        System.out.println(" ////////////// " + this.getIdc());
-        System.out.println(" ///// *** VOTRE COMMANDE *** ////////////////////////");
+        System.out.println(Main.printColor("YELLOW") +" ////////////// " + this.getIdc());
+        System.out.println(Main.printColor("YELLOW") +" ///// "+Main.printColor("CYAN") + Main.printColor("BOLD") + " *** VOTRE COMMANDE *** "+Main.printColor("RESET")+Main.printColor("YELLOW") +"////////////////////////"+Main.printColor("RESET"));
         if(this.getNbCocktailsTOTAL() > 0) System.out.println(" ## " + this.getNbCocktailsTOTAL() + " Cocktails");
         for (Cocktail c : getListeCocktails()) {
             System.out.println("     [" +i + "] : | " + c + " x " + this.commandeCocktails.get(c));
@@ -117,8 +117,8 @@ public class Commande {
             i++;
         }
 
-        System.out.println("\n ///// *** PRIX TOTAL : " + this.CalculPrixTotal() + "€ ***");
-        System.out.println(" //////////////");
+        System.out.println(Main.printColor("YELLOW") +"\n ///// *** PRIX TOTAL : "+ Main.printColor("RED") + + this.CalculPrixTotal() + "€ "+Main.printColor("RESET") + "***");
+        System.out.println(Main.printColor("YELLOW") +" //////////////"+Main.printColor("RESET"));
         return Dico;
     }
 

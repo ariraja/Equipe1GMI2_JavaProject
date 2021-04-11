@@ -23,4 +23,10 @@ public class BoissonNonAlcoolisee extends Boisson {
                 "° | *PRIX* : " + Main.printColor("BOLD")  + this.getPrix() + "€ " + Main.printColor("RESET") ;
     }
 
+    public String toString2() {
+        return "Boisson '"  + this.getNom()  + '\'' +
+                " | *DegSucre* : " + this.getDegreSucre() +
+                "° | *PRIX* : " + this.getPrix() + "€ " ;
+    }
+
 }

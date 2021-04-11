@@ -24,4 +24,10 @@ public class BoissonAlcoolisee extends Boisson {
                 "° | *PRIX* : "+ Main.printColor("BOLD")  + this.getPrix() + "€ " + Main.printColor("RESET") ;
     }
 
+    public String toString2() {
+        return "Boisson '"  + this.getNom()  +  '\'' +
+                " | *DegreAlcool* : " + this.getDegreAlcool() +
+                "° | *PRIX* : " + this.getPrix() + "€ " ;
+    }
+
 }

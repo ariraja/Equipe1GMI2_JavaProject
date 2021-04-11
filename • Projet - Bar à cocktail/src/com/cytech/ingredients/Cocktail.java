@@ -75,6 +75,13 @@ public class Cocktail extends BoissonMere{
 
     }
 
+    public int getRecetteNB(Boisson b) {
+        if(this.listeComposantsBoisson.containsKey(b)) {
+            return this.listeComposantsBoisson.get(b);
+        } else {
+            return 0;
+        }
+    }
     // retourner degre de alcool du cocktail // TODO
     public double getDegreAlcool() {
         double res = 0.0;
