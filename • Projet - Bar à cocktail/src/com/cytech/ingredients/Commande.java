@@ -23,33 +23,36 @@ public class Commande {
 
     // Ajouter un object dans la commande
     public void Ajouter(Object o, int cb ) {
-        String cla = o.getClass().getSimpleName();
-        List lb = Arrays.asList(new String[] {"Boisson","BoissonAlcoolisee","BoissonNonAlcoolisee"});
+        if(cb > 0) {
 
-        if(lb.contains(cla)) {
-            Boisson b = (Boisson) o;
+            String cla = o.getClass().getSimpleName();
+            List lb = Arrays.asList(new String[]{"Boisson", "BoissonAlcoolisee", "BoissonNonAlcoolisee"});
 
-            if(this.commandeBoissons.containsKey(b)){
-                int qte = this.commandeBoissons.get(b);
-                qte += cb;
-                this.commandeBoissons.put(b,qte);
-            } else {
-                this.commandeBoissons.put(b, cb);
+            if (lb.contains(cla)) {
+                Boisson b = (Boisson) o;
+
+                if (this.commandeBoissons.containsKey(b)) {
+                    int qte = this.commandeBoissons.get(b);
+                    qte += cb;
+                    this.commandeBoissons.put(b, qte);
+                } else {
+                    this.commandeBoissons.put(b, cb);
+                }
+
+
+            } else if (cla.compareTo("Cocktail") == 0) {
+                Cocktail c = (Cocktail) o;
+
+                if (this.commandeCocktails.containsKey(c)) {
+                    int qte = this.commandeCocktails.get(c);
+                    qte += cb;
+                    this.commandeCocktails.put(c, qte);
+                } else {
+                    this.commandeCocktails.put(c, cb);
+                }
+
+
             }
-
-        System.out.println(" ... " + cla + " '" + b.getNom() + "' x " + cb + " a été ajouté à la commande");
-        } else if (cla.compareTo("Cocktail") == 0) {
-            Cocktail c = (Cocktail) o;
-
-            if(this.commandeCocktails.containsKey(c)){
-                int qte = this.commandeCocktails.get(c);
-                qte += cb;
-                this.commandeCocktails.put(c,qte);
-            } else {
-                this.commandeCocktails.put(c, cb);
-            }
-
-            System.out.println(" ... " + cla + " '" + c.getNom() + "' x " + cb + " a été ajouté à la commande");
         }
     }
 
@@ -100,7 +103,7 @@ public class Commande {
     // Afficher la Commande a lecran
     public Map Afficher() {
         Map Dico = new HashMap();
-        int i = 0;
+        int i = 1;
         System.out.println(Main.printColor("YELLOW") +" ////////////// " + this.getIdc());
         System.out.println(Main.printColor("YELLOW") +" ///// "+Main.printColor("CYAN") + Main.printColor("BOLD") + " *** VOTRE COMMANDE *** "+Main.printColor("RESET")+Main.printColor("YELLOW") +"////////////////////////"+Main.printColor("RESET"));
         if(this.getNbCocktailsTOTAL() > 0) System.out.println(" ## " + this.getNbCocktailsTOTAL() + " Cocktails");
@@ -117,7 +120,7 @@ public class Commande {
             i++;
         }
 
-        System.out.println(Main.printColor("YELLOW") +"\n ///// *** PRIX TOTAL : "+ Main.printColor("RED") + + this.CalculPrixTotal() + "€ "+Main.printColor("RESET") + "***");
+        System.out.println(Main.printColor("YELLOW") +"\n ///// *** PRIX TOTAL : "+ Main.printColor("RED") + + this.CalculPrixTotal() + "€ "+Main.printColor("YELLOW") + "***"+Main.printColor("RESET") );
         System.out.println(Main.printColor("YELLOW") +" //////////////"+Main.printColor("RESET"));
         return Dico;
     }

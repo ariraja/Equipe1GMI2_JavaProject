@@ -56,9 +56,18 @@ public class Barman {
     public static void ModifierPrixMlBoissonAuStock(Boisson b, double newN) {
         if(LeStock.containsKey(b) ){
             int qte = LeStock.get(b);
-          //  RemoveBoissonDuStock(b);
-            ///b.setCouleur("newN"); // TODO
-         //   AjouterQteBoissonAuStock(b,qte);
+            String cla = b.getClass().getSimpleName();
+            if(cla.equals("BoissonAlcoolisee")) {
+               BoissonAlcoolisee newBoisson = new BoissonAlcoolisee(b.getNom(),b.getCouleur(),newN,((BoissonAlcoolisee) b).getDegreAlcool());
+               RemoveBoissonDuStock(b);
+                AjouterQteBoissonAuStock(newBoisson,qte);
+            } else if(cla.equals("BoissonNonAlcoolisee")) {
+                BoissonNonAlcoolisee newBoisson = new BoissonNonAlcoolisee(b.getNom(),b.getCouleur(),newN,((BoissonNonAlcoolisee) b).getDegreSucre());
+                RemoveBoissonDuStock(b);
+                AjouterQteBoissonAuStock(newBoisson,qte);
+            }
+
+
         }
     }
 
@@ -401,7 +410,7 @@ public class Barman {
                         i++;
 
                     } else if (okGestion) {
-                        System.out.println("    [" + Main.printColor("BOLD") + Main.printColor("MAGENTA") + i + "] : * " + b + Main.printColor("RED") + Main.printColor("BOLD") + " x " + fois + Main.printColor("RESET"));
+                        System.out.println("    [" + Main.printColor("BOLD") + Main.printColor("MAGENTA") + i + Main.printColor("RESET") + "] : * " + b + Main.printColor("RED") + Main.printColor("BOLD") + " x " + fois + Main.printColor("RESET"));
                         CarteSelec.put(i, b);
                         i++;
                     }
@@ -423,7 +432,7 @@ public class Barman {
                         i++;
 
                     } else if (okGestion) {
-                        System.out.println("    [" + Main.printColor("BOLD") + Main.printColor("MAGENTA") + i + "] : * " + b + Main.printColor("RED") +   Main.printColor("BOLD") + " x " + fois + Main.printColor("RESET"));
+                        System.out.println("    [" + Main.printColor("BOLD") + Main.printColor("MAGENTA") + i + Main.printColor("RESET") + "] : * " + b + Main.printColor("RED") +   Main.printColor("BOLD") + " x " + fois + Main.printColor("RESET"));
                         CarteSelec.put(i, b);
                         i++;
                     }
@@ -475,12 +484,12 @@ public class Barman {
             } else {
                 maCommande.Afficher();
 
-                System.out.println("  ---- \n (0 : Continuer ma commande)     (1 : Valider ma commande)   (2 : Modifier ma commande)   (3 : Annuler ma commande)");
+                System.out.println("  ---- \n (0 : Continuer ma commande)     (1 : Valider ma commande)      (2 : Annuler ma commande)");
                 choix = Main.SaisirInt(0, 2,"");
                 switch (choix) {
                     case 0 : Barman.SelectionnerBoisson(maCommande); break;
                     case 1 : Barman.ValiderCommande(maCommande); break;
-                    case 3 : Barman.AnnulerCommande(maCommande);break;
+                    case 2 : Barman.AnnulerCommande(maCommande);break;
                 }
 
             }
@@ -780,17 +789,20 @@ public class Barman {
                     System.out.println(" (# : Entrer le numéro de la boisson à modifier)          (0 : Retour)");
                     choix = Main.SaisirInt(0, Carte.size(), "une bonne chiffre pour selectionner une boisson.. ou saisissez 0 pour faire retour");
                     if(choix != 0) {
-                        System.out.println(" ~# " + ((Boisson) Carte.get(choix)).getNom());
+                        System.out.println(" ~# " + ((Boisson) Carte.get(choix)).getNom() + " | couleur=" +  ((Boisson) Carte.get(choix)).getCouleur()+ " | PrixMl=" +  ((Boisson) Carte.get(choix)).getPrixMl());
                         System.out.println(" (1 : Le nom)     ( 2 : Couleur)     (3 : Prix au Ml)          (0 : Retour)");
                         int choixAttr = Main.SaisirInt(0, 4, "");
                         if(choixAttr == 1) {
+                            System.out.print(" nouveau nom > ");
                             String newName = Main.SaisirString("");
                             Barman.ModifierNomBoissonAuStock((Boisson) Carte.get(choix), newName);
                         } else if(choixAttr == 2) {
+                            System.out.print(" nouvelle couleur (en hexadecimal svp) > ");
                             String  newCouleur = Main.SaisirString("");
                             Barman.ModifierCouleurBoissonAuStock((Boisson) Carte.get(choix), newCouleur);
                         } else if(choixAttr == 3){
-                            double newPrixMl = Main.SaisirDouble(0,10,"");
+                            System.out.print(" nouvelle valeur du prix au ml > ");
+                            double newPrixMl = Main.SaisirDouble(0,10,"n'abusons pas");
                             Barman.ModifierPrixMlBoissonAuStock((Boisson) Carte.get(choix), newPrixMl);
                         }
 
