@@ -25,7 +25,7 @@
                     "prixMl":0.015,
                     "degreSucre":2.0
                 },
-                //feuille de menthe à ajouter ap!!
+
                 {
                     "nom": "Eau gazeuse",
                     "contenance" : 8,
@@ -63,7 +63,7 @@
                     "prixMl":0.01,
                     "degreSucre":4.0
                 },
-                //feuille de menthe à ajouter ap!!
+
                {
                    "nom": "Jus d'ananas",
                     "contenance" : 10,
@@ -94,7 +94,7 @@
                     "prixMl":0.025,
                     "degreSucre":3.0
                 },
-                //feuille de menthe à ajouter ap!!
+
                {
                    "nom": "Jus d'ananas",
                     "contenance" : 3,
@@ -188,7 +188,7 @@
                     "prixMl":0.01,
                     "degreSucre":4.0
                 },
-                //feuille de menthe à ajouter ap!!
+
                {
                    "nom": "Jus d'ananas",
                     "contenance" : 1,

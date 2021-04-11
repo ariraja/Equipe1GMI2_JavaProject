@@ -12,7 +12,6 @@ public class Cocktail extends BoissonMere{
     private HashMap<Boisson, Integer> listeComposantsBoisson;
 
 
-
     public Cocktail(String nom, HashMap<Boisson, Integer> listeComposants) {
         super(nom, 200,new ArrayList<Boisson>(listeComposants.keySet()).get(0).getCouleur()); // TODO couleur
         this.listeComposantsBoisson = listeComposants;
@@ -42,20 +41,22 @@ public class Cocktail extends BoissonMere{
 
     @Override
     public String toString() {
-        String res = "Coktail '" + this.getNom() + '\''  + " | *PRIX* : " + this.getPrix() +
-                "€ |";
+        String res = "Coktail '"  + Main.printColor("BOLD") + this.getNom() + '\'' + Main.printColor("RESET");
         if(this.getDegreAlcool() > 0) {
-            res += " *DegALCOOL* : " +  this.getDegreAlcool() + "° |";
+            res += " | *DegALCOOL* : " +  this.getDegreAlcool() + "°";
         }
         if(this.getDegreSucre() > 0) {
-            res += " *DegSUCRE* " +  this.getDegreSucre() + "° |";
+            res += " | *DegSUCRE* " +  this.getDegreSucre() + "°";
         }
-
-        res += " (";
+        res += " | (";
         for(Boisson b : this.listeComposantsBoisson.keySet())
             res += "'" + b.getNom() +"',";
         res = res.substring(0,res.length()-1);
         res += ")";
+
+        res += " | *PRIX* : "+ Main.printColor("BOLD") + this.getPrix()+ Main.printColor("RESET")  +
+                "€";
+
         return res;
     }
 

@@ -1,111 +1,111 @@
 {
     "BoissonAlcoolisee" : [
         {"nom": "Rhum cubain",
-        "contenance" : 100,
         "couleur":"#AA3E10",
         "prixMl":0.04,
-         "degreAlcool":35.0
+         "degreAlcool":35.0,
+         "quantite": 7
         },
         
         {"nom": "Rhum Blanc",
-        "contenance" : 100,
         "couleur":"#EEE9E8",
         "prixMl":0.05,
-         "degreAlcool":40.0
+         "degreAlcool":40.0,
+         "quantite": 5
         },
         
         {"nom": "Vodka",
-        "contenance" : 100,
         "couleur":"#F9F9F5",
         "prixMl":0.04,
-         "degreAlcool":40.0
+         "degreAlcool":40.0,
+         "quantite": 12
         },
         
         {"nom": "Curaçao bleu",
-        "contenance" : 100,
         "couleur":"#2865EA",
         "prixMl":0.02,
-         "degreAlcool":20.0
+         "degreAlcool":20.0,
+         "quantite": 2
         },
         
         {"nom": "Tequila",
-        "contenance" : 100,
         "couleur":"#FAFEA9",
         "prixMl":0.03,
-         "degreAlcool":40.0
+         "degreAlcool":40.0,
+         "quantite": 13
         },
         
         {"nom": "Amaretto",
-        "contenance" : 100,
         "couleur":"#A45E5E",
         "prixMl":0.03,
-         "degreAlcool":28.0
+         "degreAlcool":28.0,
+         "quantite": 22
         }
     ],
     
     "BoissonNonAlcoolisee" : [
         
         {"nom": "Jus de citrons",
-        "contenance" : 100,
         "couleur":"#ECEB2E",
         "prixMl":0.005,
-         "degreSucre":2.0
+         "degreSucre":2.0,
+         "quantite": 30
         },
         
         {"nom": "Eau gazeuse",
-        "contenance" : 100,
         "couleur":"#1586E8",
         "prixMl":0.005,
-         "degreSucre":0.1
+         "degreSucre":0.1,
+         "quantite": 20
         },
         
         {"nom": "Sirop de sucre de canne",
-        "contenance" : 100,
         "couleur":"#CFC1BF",
         "prixMl":0.015,
-         "degreSucre":8.0
+         "degreSucre":8.0,
+         "quantite": 15
         },
         
         {"nom": "Lait de coco",
-        "contenance" : 100,
         "couleur":"#FEFEFE",
         "prixMl":0.01,
-         "degreSucre":4.0
+         "degreSucre":4.0,
+         "quantite": 7
         },
         
         {"nom": "Jus d'ananas",
-        "contenance" : 100,
         "couleur":"##CFD722",
         "prixMl":0.005,
-         "degreSucre":4.0
+         "degreSucre":4.0,
+         "quantite": 35
         },
         
         {"nom": "Sirop de Melon",
-        "contenance" : 100,
         "couleur":"#F9A108",
         "prixMl":0.025,
-         "degreSucre":3.0
+         "degreSucre":3.0,
+         "quantite": 26
         },
         
         {"nom": "Jus de Cranberry",
-        "contenance" : 100,
         "couleur":"#EA2E28",
         "prixMl":0.005,
-         "degreSucre":5.0
+         "degreSucre":5.0,
+         "quantite": 3
         },
         
         {"nom": "Jus d'orange",
-        "contenance" : 100,
         "couleur":"#E08511",
         "prixMl":0.005,
-         "degreSucre":4.0
+         "degreSucre":4.0,
+         "quantite": 50
         },
         
         {"nom": "Sirop de grenadine",
-        "contenance" : 100,
         "couleur":"#DC1542",
         "prixMl":0.005,
-         "degreSucre":10.0
+         "degreSucre":10.0,
+         "quantite": 6
         }
     ]
  

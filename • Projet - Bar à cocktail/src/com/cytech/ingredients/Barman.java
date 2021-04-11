@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,8 +27,9 @@ public class Barman {
 
     }
     // initialiser les Coktails a partir du fichier JSON
-    public static void initCocktailsJSON() { // Cette fonction est a modif
+    public static void initCocktailsJSON() throws IOException, ParseException { // Cette fonction est a modif
         LesCocktails.clear();
+        LesCocktails = readJSONCocktails(new FileReader("cocktail.json"));
 
 
     }
@@ -292,13 +294,13 @@ public class Barman {
                 for (Cocktail c : LesCocktails) {
                     //System.out.println(c.estDisponible());
                     if (c.estDisponible()) {
-                        System.out.println("    [" + i + "] : * " + c);
+                        System.out.println("    [" + Main.printColor("BOLD") + Main.printColor("MAGENTA") + i + Main.printColor("") + "] : * " + c);
                         CarteSelec.put(i, c);
                         i++;
                     }
                 }
             }
-            System.out.println(Main.printColor("YELLOW") +" #### "+ Main.printColor("GREEN") +"Nos BOISSONS : "+ Main.printColor("RESET") + Barman.getNbBoissonsDispo() + "/" + LeStock.size());
+            System.out.println(Main.printColor("YELLOW") +" #### "+ Main.printColor("GREEN") +"Nos BOISSONS : "+ Main.printColor("RESET") + "(" + Barman.getNbBoissonsDispo() + "/" + LeStock.size()+")");
 
             /** Boisson Alcoolisee **/
             System.out.println(Main.printColor("YELLOW") +"   ### ○ AVEC ALCOOL : " + Main.printColor("RESET"));
@@ -306,9 +308,9 @@ public class Barman {
                 int fois = LeStock.get(b) - maCommande.getQuantiteBoisson(b);
                 if (fois > 0) {
                     if(okAffQuantite) {
-                        System.out.println("    [" + i + "] : * " + b  +  Main.printColor("YELLOW") + " x " + fois  + Main.printColor("RESET"));
+                        System.out.println("    [" + Main.printColor("BOLD") + Main.printColor("MAGENTA") +i + Main.printColor("RESET") + "] : * " + b  +  Main.printColor("YELLOW") + " x " + fois  + Main.printColor("RESET"));
                     } else {
-                        System.out.println("    [" + i + "] : * " + b);
+                        System.out.println("    [" + Main.printColor("BOLD") + Main.printColor("MAGENTA") +i + Main.printColor("RESET") + "] : * " + b);
                     }
                     CarteSelec.put(i, b);
                     i++;
@@ -323,9 +325,9 @@ public class Barman {
                 int fois = LeStock.get(b) - maCommande.getQuantiteBoisson(b);
                 if (fois > 0) {
                     if(okAffQuantite) {
-                        System.out.println("    [" + i + "] : * " + b  +  Main.printColor("YELLOW") + " x " + fois  + Main.printColor("RESET"));
+                        System.out.println("    [" + Main.printColor("BOLD") + Main.printColor("MAGENTA") +i + Main.printColor("RESET") + "] : * " + b  +  Main.printColor("YELLOW") + " x " + fois  + Main.printColor("RESET"));
                     } else {
-                        System.out.println("    [" + i + "] : * " + b);
+                        System.out.println("    [" + Main.printColor("BOLD") + Main.printColor("MAGENTA") +i + Main.printColor("RESET") + "] : * " + b);
                     }
                     CarteSelec.put(i, b);
                     i++;
@@ -514,6 +516,58 @@ public class Barman {
         }
         return nbBoissonsDispo;
     }
+
+    public static  ArrayList<Cocktail> readJSONCocktails(FileReader file) throws IOException, ParseException {
+        ArrayList<Cocktail> COCKTAILS = new ArrayList<Cocktail>();
+
+        JSONParser jsonparser = new JSONParser();
+
+        Object obj= jsonparser.parse(file);
+
+        JSONObject jsonobject=(JSONObject)obj;
+
+        JSONArray array = (JSONArray) jsonobject.get("Cocktails");
+        // Pour chaque Cocktails
+        for(int i=0;i<array.size();i++){
+            HashMap<Boisson,Integer> recetteC = new HashMap<Boisson,Integer>();
+            JSONObject cockt=(JSONObject) array.get(i);
+
+            String nomC = (String)  cockt.get("nom");
+            String couleurC = (String)  cockt.get("couleur");
+
+
+            JSONArray arrayIngredient = (JSONArray) cockt.get("ingredients");
+            //Pour chaq ingrédient
+            for(int k = 0; k < arrayIngredient.size(); k++) {
+                JSONObject boiss = (JSONObject) arrayIngredient.get(k);
+                System.out.println(boiss);
+                String nomB = (String) boiss.get("nom");
+                String couleurB = (String) boiss.get("couleur");
+
+                Integer contenanceB = Integer.parseInt(boiss.get("contenance").toString());
+
+                double prixMlB = (double) boiss.get("prixMl");
+
+                if(null == boiss.get("degreSucre")) // si c'est un alcool
+                {
+                    double degre = (double) boiss.get("degreAlcool");
+                    BoissonAlcoolisee x = new BoissonAlcoolisee(nomB,couleurB,prixMlB,degre);
+                    recetteC.put(x,contenanceB); // ajout
+                } else {
+                    double degre = (double) boiss.get("degreSucre");
+                    BoissonNonAlcoolisee x = new BoissonNonAlcoolisee(nomB,couleurB,prixMlB,degre);
+                    recetteC.put(x,contenanceB); // ajout
+                }
+            }
+
+            Cocktail coco = new Cocktail(nomC,recetteC);
+            COCKTAILS.add(coco);
+
+        }
+
+        return COCKTAILS;
+    }
+
 
     public static  HashMap<Boisson,Integer> readJSONBoissonsStock(FileReader file) throws IOException, ParseException {
         HashMap<Boisson,Integer> StockStock = new HashMap<Boisson,Integer>();
