@@ -3,7 +3,12 @@
 L'objectif de ce projet était de créer un logiciel pour gérer un bar à cocktail. 
 
 ### ⚙ HOW TO RUN IT
-Run 'Main.java'  
+- Add "json-jar.jar" and "json-simple-1.1.jar" librairies
+- Run 'Main.java'. 
+
+
+Remarque : Le code à été créé avec l'IDE IntelliJ (et non Ellipse) - pour éviter tout problème, récupérer le code présent dans /src .
+
 
 ### 🍹 BIENVENUE DANS LE BAR 
 Notre carte des cocktails : [ici](Cocktail%20Menu.pdf)
@@ -43,10 +48,10 @@ Pour la gestion des cocktails, le barman a la possibilité de soit créer un coc
 ---
 ### 📸 Screenshots 
 
-![](img/1.png)
-![](img/3.png)
-![](img/3.png)
-![](img/4.png)
+![](img/1.png "Accueil")
+![](img/3.png "Commander dans le Bar")
+![](img/3.png "Créer son cocktail")
+![](img/4.png "Gestions des boissons")
 
 ---
 ### 👨🏾‍💻👨🏼‍💻 Auteurs
