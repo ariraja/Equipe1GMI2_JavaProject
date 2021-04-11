@@ -6,6 +6,7 @@ L'objectif de ce projet était de créer un logiciel pour gérer un bar à cockt
 Run 'Main.java'  
 
 ### 🍹 BIENVENUE DANS LE BAR 
+Notre carte des cocktails : [ici](Cocktail%20Menu.pdf)
 
 Une fois le programme exécuté nous arrivons sur la page d’accueil de notre programme.  Nous avons trois possibilités:
 - (1) pour continuer en tant que client
@@ -50,4 +51,4 @@ Pour la gestion des cocktails, le barman a la possibilité de soit créer un coc
 ---
 ### 👨🏾‍💻👨🏼‍💻 Auteurs
 [Mlamali SAID SALIMO](https://www.linkedin.com/in/mlamalisaidsalimo) - [Ari RAJAOFERA](https://www.linkedin.com/in/mlamalisaidsalimo) https://www.linkedin.com/in/ari-rajaofera/
-[Guillaume URVOY](https://www.linkedin.com/in/urvoy-guillaume-7849aa1b6/) - 
+[Guillaume URVOY](https://www.linkedin.com/in/urvoy-guillaume-7849aa1b6/) - [Jonathan LOUAMBA](https://www.linkedin.com/in/jonathan-louamba-167a95206/)
