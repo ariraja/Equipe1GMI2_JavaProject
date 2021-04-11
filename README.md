@@ -50,3 +50,4 @@ Pour la gestion des cocktails, le barman a la possibilité de soit créer un coc
 ---
 ### 👨🏾‍💻👨🏼‍💻 Auteurs
 [Mlamali SAID SALIMO](https://www.linkedin.com/in/mlamalisaidsalimo) - [Ari RAJAOFERA](https://www.linkedin.com/in/mlamalisaidsalimo) https://www.linkedin.com/in/ari-rajaofera/
+[Guillaume URVOY](https://www.linkedin.com/in/urvoy-guillaume-7849aa1b6/) - 
