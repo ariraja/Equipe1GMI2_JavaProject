@@ -197,7 +197,7 @@ public class Barman {
         HashMap<Boisson, Integer> recette = new HashMap<Boisson, Integer>();
 
         while(encore) {
-            Carte = AfficherCatalogue("CREATION DE COCKTAIL * INGREDIENTS","De quoi sera composer votre cocktail ? (2 boissons minimum)",false,true,false,false);
+            Carte = AfficherCatalogue("CREATION DE COCKTAIL * INGREDIENTS","De quoi sera composer votre cocktail ? (2 boissons minimum)",false,true,true,false);
             if(recette.size() > 0) {
                 System.out.println("  ----"); AfficherRecette(recette);
             }
@@ -304,7 +304,6 @@ public class Barman {
                 Bs.add((BoissonNonAlcoolisee) b);
             }
         }
-
 
         if(Barman.getNbBoissonsDispo() + Barman.getNbCocktailsDispo() > 0) {
             if(okAffCocktail) {
