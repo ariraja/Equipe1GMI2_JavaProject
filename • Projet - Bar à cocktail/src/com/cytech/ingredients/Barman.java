@@ -1,4 +1,9 @@
 package com.cytech.ingredients;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.HashMap;
 
@@ -101,8 +106,25 @@ public class Barman {
 
 
     }
+    public static String getDateToday(){//récupérer la date et heure sous forme YYYYMMDD-HHMMSS
+        Calendar cal = Calendar.getInstance( );  // date du jour
+        String today="";
+        String annee=Integer.toString(cal.get(Calendar.YEAR));
+        String mois=Integer.toString(cal.get(Calendar.MONTH)+1);
+        if(cal.get(Calendar.MONTH)<10){
+            mois="0"+mois;
+        }
+        String jour=Integer.toString(cal.get(Calendar.DAY_OF_MONTH));
+
+        String heure=Integer.toString(cal.get(Calendar.HOUR_OF_DAY));
+        String minute=Integer.toString(cal.get(Calendar.MINUTE));
+        String seconde=Integer.toString(cal.get(Calendar.SECOND));
+
+        return annee+mois+jour+"-"+heure+minute+seconde;
+    }
+
     public static void TuVeuxQuoi() {
-        Commande maCommande = new Commande(1); // TODO date de ajd
+        Commande maCommande = new Commande(getDateToday()); // TODO date de ajd
         AfficherCatalogue(maCommande,"Le BAR","Qu'est ce qui vous ferai plaisir ?",true,true);
         System.out.println("  ---- \n ( 1 : *COMMANDER* )     ( 2 : *CREER MON COCKTAIL* )      (0 : *QUITTER LE BAR* ) ");
 
@@ -328,8 +350,14 @@ public class Barman {
         Barman.TuVeuxQuoi();
     }
 
-    // Valider Commander et sauvegarde
-    public static void ValiderCommande(Commande maCommande) {
+    /*** Methode enregistré une commande  ***/
+    private static void saveCommande(Commande maCommande) {
+
+        System.out.println("Commande");
+    }
+
+    /*** Valider Commander et sauvegarde ***/
+    public static void ValiderCommande(Commande maCommande)  {
          System.out.println(" stock avant validation *** " + LeStock);
         // mettre a jour le stock
          if(maCommande.getNbBoissonsTOTAL() > 0) {
@@ -337,9 +365,9 @@ public class Barman {
                 RetirerBoissonDuStock(b,maCommande.getQuantiteBoisson(b));
              }
          }
-         // mettre à jour La disponibilité des cocktails
-        System.out.println(" stock apres validation *** " + LeStock);
-        Barman.TuVeuxQuoi();
+         saveCommande(maCommande);
+         System.out.println(" stock apres validation *** " + LeStock);
+         Barman.TuVeuxQuoi();
     }
 
 

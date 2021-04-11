@@ -3,12 +3,12 @@ package com.cytech.ingredients;
 import java.util.*;
 
 public class Commande {
-    private int idc; // identifiant de la commande // TODO date heure de ajd
+    private String idc; // identifiant de la commande // TODO date heure de ajd
     private HashMap<Boisson, Integer> commandeBoissons = new HashMap<Boisson, Integer>();
     private HashMap<Cocktail, Integer> commandeCocktails = new HashMap<Cocktail, Integer>();
 
     // Contructeur
-    public Commande(int idc) {
+    public Commande(String idc) {
         this.idc = idc;
     }
 

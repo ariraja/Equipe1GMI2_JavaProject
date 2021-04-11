@@ -41,23 +41,6 @@ public class Test {
 
     }
 
-    public static String getDateToday(){//récupérer la date et heure sous forme YYYYMMDD-HHMMSS
-        Calendar cal = Calendar.getInstance( );  // date du jour
-        String today="";
-        String annee=Integer.toString(cal.get(Calendar.YEAR));
-        String mois=Integer.toString(cal.get(Calendar.MONTH)+1);
-        if(cal.get(Calendar.MONTH)<10){
-            mois="0"+mois;
-        }
-        String jour=Integer.toString(cal.get(Calendar.DAY_OF_MONTH));
-
-        String heure=Integer.toString(cal.get(Calendar.HOUR_OF_DAY));
-        String minute=Integer.toString(cal.get(Calendar.MINUTE));
-        String seconde=Integer.toString(cal.get(Calendar.SECOND));
-
-        return annee+mois+jour+"-"+heure+minute+seconde;
-    }
-
     private static void saveCommande(String id, Boisson[] commande) throws IOException {
         JSONObject obj=new JSONObject();
         JSONArray liste_boissons=new JSONArray();
@@ -80,65 +63,105 @@ public class Test {
         System.out.println("Commande n°" + id + " sauvegardée");
     }
 
-    public static ArrayList<Boisson> readJSONBoisson(FileReader file) throws IOException, ParseException {
-        ArrayList<Boisson> listeBoissons = new  ArrayList<Boisson>();
+    public static  HashMap<Boisson,Integer> readJSONBoissonsStock(FileReader file) throws IOException, ParseException {
+        HashMap<Boisson,Integer> StockStock = new HashMap<Boisson,Integer>();
         JSONParser jsonparser = new JSONParser();
         Object obj= jsonparser.parse(file);
         JSONObject jsonobject=(JSONObject)obj;
 
-        JSONArray array=(JSONArray)jsonobject.get("boisson");
+        JSONArray array = (JSONArray) jsonobject.get("BoissonAlcoolisee");
         for(int i=0;i<array.size();i++){
             JSONObject boisson=(JSONObject) array.get(i);
-
             String nom = (String) boisson.get("nom");
-            Long contenance = (Long) boisson.get("contenance");//pb ici à la base c un double!!!
+
             String couleur = (String) boisson.get("couleur");
             Double prix = (Double) boisson.get("prix");
+            Double degre = (Double) boisson.get("degreAlcool");
+            Integer q = Integer.parseInt(boisson.get("quantite").toString());
 
-            Boisson a = new Boisson(nom,contenance,couleur,prix);
-            System.out.println(a.toString());
-            listeBoissons.add(a);
-        /*System.out.println("Nom boisson :"+nom);
-            System.out.println("Volume boisson :"+contenance);
-            System.out.println("Couleur boisson :"+couleur);
-            System.out.println("Prix boisson :"+prix);*/
+            Boisson a = new BoissonAlcoolisee(nom,couleur,prix,degre);
+            StockStock.put(a,q);
+
         }
-        return listeBoissons;
+        JSONArray array2 = (JSONArray) jsonobject.get("BoissonNonAlcoolisee");
+        for(int i=0;i<array.size();i++){
+            JSONObject boisson=(JSONObject) array2.get(i);
+            String nom = (String) boisson.get("nom");
+
+            String couleur = (String) boisson.get("couleur");
+            Double prix = (Double) boisson.get("prix");
+            Double degre = (Double) boisson.get("degreSucre");
+            Integer q = Integer.parseInt(boisson.get("quantite").toString());
+
+            Boisson a = new BoissonNonAlcoolisee(nom,couleur,prix,degre);
+            StockStock.put(a,q);
+
+        }
+
+        return StockStock;
     }
 
-    private static void writeJSONBoisson(ArrayList<Boisson> arrayB) throws IOException {
+    private static void writeJSONBoissonsStock(HashMap<Boisson,Integer> StockStock) throws IOException {
         JSONObject obj=new JSONObject();
-        JSONArray liste_boissons=new JSONArray();
-        for(Boisson b:arrayB){
+
+
+        //** Séparé les alccol et les sucré
+        ArrayList<BoissonAlcoolisee> Ba = new ArrayList<BoissonAlcoolisee>();
+        ArrayList<BoissonNonAlcoolisee> Bs = new ArrayList<BoissonNonAlcoolisee>();
+        for(Boisson b: StockStock.keySet()){
+            String cla = b.getClass().getSimpleName();
+            if(cla.equals("BoissonAlcoolisee")) {
+                Ba.add((BoissonAlcoolisee) b);
+            } else if(cla.equals("BoissonNonAlcoolisee")) {
+                Bs.add((BoissonNonAlcoolisee) b);
+            }
+        }
+
+
+        JSONArray liste_BoissonsAlcoolisee=new JSONArray();
+        for(BoissonAlcoolisee b: Ba){
             JSONObject obj_interne=new JSONObject();
             obj_interne.put("nom",b.nom);
-            obj_interne.put("contenance",b.contenance);
             obj_interne.put("couleur",b.getCouleur());
             obj_interne.put("prix",b.getPrix());
-            liste_boissons.add(obj_interne);
+            obj_interne.put("degre",b.getDegreAlcool());
+            obj_interne.put("quantite",StockStock.get(b));
+            liste_BoissonsAlcoolisee.add(obj_interne);
         }
-        obj.put("l_Boissons",liste_boissons);
+        obj.put("BoissonAlcoolisee",liste_BoissonsAlcoolisee);
 
-        try(FileWriter file=new FileWriter("màj_boisson.json")){
+        JSONArray liste_BoissonsNonAlcoolisee=new JSONArray();
+        for(BoissonNonAlcoolisee b: Bs){
+            JSONObject obj_interne=new JSONObject();
+            obj_interne.put("nom",b.nom);
+            obj_interne.put("couleur",b.getCouleur());
+            obj_interne.put("prix",b.getPrix());
+            obj_interne.put("degre",b.getDegreSucre());
+            obj_interne.put("quantite",StockStock.get(b));
+            liste_BoissonsNonAlcoolisee.add(obj_interne);
+        }
+        obj.put("BoissonNonAlcoolisee",liste_BoissonsNonAlcoolisee);
+
+        // Go
+        try(FileWriter file=new FileWriter("maj_boisson.json")){
             file.write(obj.toString());
         }
         catch (IOException e){
             e.printStackTrace();
         }
-        System.out.println("Stock de boisson màj");
+
     }
 
 
-    public static void main(String[] args) throws IOException, ParseException {
-        FileReader file=new FileReader("boisson.json");
-        ArrayList<Boisson> Boisson_liste=readJSONBoisson(file);
-        System.out.println(Boisson_liste);
+    public static void main() throws IOException, ParseException {
 
+        HashMap<Boisson,Integer> LeStock = readJSONBoissonsStock(new FileReader("boisson.json"));
+        System.out.println(LeStock);
 
-        //TODO fonction write json et qui écrit nouveau arraylist
-        Boisson test =new Boisson("Eau","#1586E0",0.0001);
+        writeJSONBoissonsStock(LeStock);
+        /*Boisson test =new BoissonNonAlcoolisee("Eau","#1586E0",0.002,50);
         Boisson_liste.add(test);
-        writeJSONBoisson(Boisson_liste);
+        writeJSONBoisson(Boisson_liste);*/
         //JSONArray a = (JSONArray) parser.parse(new FileReader("boisson.json"));
        //JSONObject objet = (JSONObject) parser.parse(new FileReader("h:\\Documents\\Cours ING1 GM\\Semestre 2\\APOO\\Java\\Java Projet\\• Projet - Bar à cocktail\\boisson.json"));
 
