@@ -57,10 +57,10 @@ public class Main {
 
     public static void MENUPRINCIPALE() throws IOException, ParseException {
         System.out.println(printColor("YELLOW") + "//////////////////////////////////////////////");
-        System.out.println("/////////////"+ printColor("RED") +" Mlamali SAIDSALIMO "+ printColor("YELLOW") +"/////////////");
-        System.out.println("////////////"+ printColor("RED") +"   Ari RAJAOEFERA   "+ printColor("YELLOW") +"//////////////");
-        System.out.println("///////////"+ printColor("RED") +"  Guillaume URVOY   "+ printColor("YELLOW") +"///////////////");
-        System.out.println("//////////"+ printColor("RED") +" Jonathan LOUAMBA   "+ printColor("YELLOW") +"////////////////");
+        System.out.println("/////////////"+ printColor("BOLD") +" Mlamali SAIDSALIMO "+ printColor("YELLOW") +"/////////////");
+        System.out.println("////////////"+ printColor("BOLD") +"   Ari RAJAOEFERA   "+ printColor("YELLOW") +"//////////////");
+        System.out.println("///////////"+ printColor("BOLD") +"  Guillaume URVOY   "+ printColor("YELLOW") +"///////////////");
+        System.out.println("//////////"+ printColor("BOLD") +" Jonathan LOUAMBA   "+ printColor("YELLOW") +"////////////////");
         System.out.println("//////////////////////////////////////////////");
         System.out.println("////////"+ printColor("RESET") +" * BAR A COCKTAIL * "+ printColor("YELLOW") +"//////////////////");
         System.out.println("//////////////////////////////////////////////");
@@ -69,14 +69,18 @@ public class Main {
         System.out.println("////  ---                      ///////////////");
         System.out.println("///"+ printColor("RESET") +"  0 : QUITTER              "+ printColor("YELLOW") +"////////////////");
         System.out.print("//"+ printColor("RESET") +" > ");
-      //int choix = SaisirInt(0,2,"");
+      int choix = SaisirInt(0,2,"");
+        if(choix == 1) {
+            ClearConsole();
+            Barman.initBoissonsJSON();
+            Barman.initCocktailsJSON();
+            Barman.SePresenter();
+            Barman.TuVeuxQuoi();
+        } else if (choix == 2) {
 
-        int choix = 1;
-        ClearConsole();
-        Barman.initBoissonsJSON();
-        Barman.initCocktailsJSON();
-        Barman.SePresenter();
-        Barman.TuVeuxQuoi();
+        } else {
+            System.out.println("A bientot");
+        }
 
     }
     public static void ClearConsole() { // TODO

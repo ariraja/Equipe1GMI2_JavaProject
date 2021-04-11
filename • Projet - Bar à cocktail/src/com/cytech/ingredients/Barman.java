@@ -122,21 +122,30 @@ public class Barman {
         String jour=Integer.toString(cal.get(Calendar.DAY_OF_MONTH));
 
         String heure=Integer.toString(cal.get(Calendar.HOUR_OF_DAY));
+        if(cal.get(Calendar.HOUR_OF_DAY)<10){
+            heure="0"+heure;
+        }
         String minute=Integer.toString(cal.get(Calendar.MINUTE));
+        if(cal.get(Calendar.MINUTE)<10){
+            minute="0"+ minute;
+        }
         String seconde=Integer.toString(cal.get(Calendar.SECOND));
+        if(cal.get(Calendar.SECOND)<10){
+            seconde="0"+ seconde;
+        }
 
         return annee+mois+jour+"-"+heure+minute+seconde;
     }
 
     public static void TuVeuxQuoi() throws IOException, ParseException {
-        Commande maCommande = new Commande(getDateToday()); // TODO date de ajd
+        Commande maCommande = new Commande(getDateToday());
         AfficherCatalogue(maCommande,"Le BAR","Qu'est ce qui vous ferai plaisir ?",true,true);
-        System.out.println("  ---- \n ( 1 : *COMMANDER* )     ( 2 : *CREER MON COCKTAIL* )      (0 : *QUITTER LE BAR* ) ");
+        System.out.println(Main.printColor("BOLD") +"  ---- \n ( 1 : *COMMANDER* )     ( 2 : *CREER MON COCKTAIL* )      (0 : *QUITTER LE BAR* ) " + Main.printColor("RESET"));
 
         int choix = Main.SaisirInt(0,2,"");
         if(choix == 1) Barman.SelectionnerBoisson(maCommande);
         else if(choix == 2) Barman.ComposerCocktail(maCommande);
-        else if(choix == 0) Barman.Abientot(maCommande); // TODO fonction a bientot
+        else if(choix == 0) Barman.Abientot(maCommande);
 
     }
     private static Double SommeArray(Collection<Double> t) {
@@ -150,17 +159,17 @@ public class Barman {
     }
 
     private static void AfficherRecette(HashMap<Boisson, Double> recette) {
-    String res = " ~# Vos Ingrédients : ";
-    ArrayList<Boisson> Bs = new ArrayList<Boisson>(recette.keySet());
-    ArrayList<Double> Qs = new ArrayList<Double>(recette.values());
-    int n = Bs.size();
-    for(int i = 0; i < n-1; i++) {
-        res += Bs.get(i).getNom() + " (" + Qs.get(i) + "%) - ";
-    }
-    res += Bs.get(n-1).getNom()+ " (" + Qs.get(n-1) + "%)";;
-    System.out.println(res);
+        String res = " ~# Vos Ingrédients : ";
+        ArrayList<Boisson> Bs = new ArrayList<Boisson>(recette.keySet());
+        ArrayList<Double> Qs = new ArrayList<Double>(recette.values());
+        int n = Bs.size();
+        for(int i = 0; i < n-1; i++) {
+            res += Bs.get(i).getNom() + " (" + Qs.get(i) + "%) - ";
+        }
+        res += Bs.get(n-1).getNom()+ " (" + Qs.get(n-1) + "%)";;
+        System.out.println(res);
 
-}
+    }
 
     private static HashMap<Boisson, Double> NormaliserRecette(HashMap<Boisson, Double> recette) {
         double Total = 0.0;
@@ -239,14 +248,18 @@ public class Barman {
 
                     /*** CREATION ET AJOUT DU COCKTAIL ***/
                     if (choix == 2) {
+                        if(SommeArray( recette.values()) < 100) {
+                            System.out.println("  ---- Hmm.. les taux ont été réajusté. ");
+                            recette = NormaliserRecette(recette);
+                            AfficherRecette(recette);
+
+                        }
                         /*** Saisie de la Qté ***/
-                        System.out.println("  ---- \n Donner un nom à votre cocktail  ");
-                        System.out.print("  > ");
+                        System.out.print("  ---- \n * Donner mtn un nom à votre cocktail > ");
+
                         String Nom = Main.SaisirString("veuillez saisir un prénom correct");
-                        recette = NormaliserRecette(recette);
+
                         Cocktail newC = new Cocktail(Nom, recette);
-                        AfficherRecette(recette);
-                        System.out.println(newC);
                         AjouterCocktailALaListe(newC); // ajouter le nouveau cocktail créer a la liste
                         Barman.TuVeuxQuoi(); // Retour au menu
                     } else if (choix == 0) {
@@ -256,6 +269,8 @@ public class Barman {
                 }
 
 
+            } else {
+                Barman.TuVeuxQuoi(); // Retour au menu
             }
         }
     }
@@ -263,8 +278,8 @@ public class Barman {
     // Afficher le contenu du bar, retourne une carte pour selectionné
     public static Map AfficherCatalogue(Commande maCommande,String Titre,String Notice, boolean okAffCocktail, boolean okAffQuantite) throws IOException, ParseException {
         Map CarteSelec = new HashMap(); int i = 1;
-        System.out.println("///////////////// " + Notice);
-        System.out.println(String.format("//////  -*-* %s *-*- ///////////////////////// \n",Titre));
+        System.out.println(Main.printColor("YELLOW") + "///////////////// "+ Main.printColor("RESET") + Notice + Main.printColor("YELLOW"));
+        System.out.println(String.format( "//////"+ Main.printColor("RED") + Main.printColor("BOLD") +"  -*-* %s *-*- "+ Main.printColor("RESET") + Main.printColor("YELLOW") +" ///////////////////////// \n"+ Main.printColor("RESET") ,Titre));
         if(Barman.getNbBoissonsDispo() + Barman.getNbCocktailsDispo() > 0) {
             if(okAffCocktail) {
                 System.out.println(" #### Nos Cocktails : " + Barman.getNbCocktailsDispo()+ "/" + LesCocktails.size());
@@ -355,11 +370,6 @@ public class Barman {
         Barman.TuVeuxQuoi();
     }
 
-    /*** Methode enregistré une commande  ***/
-    private static void saveCommande(Commande maCommande) {
-
-        System.out.println("Commande");
-    }
 
     /*** Valider Commander et sauvegarde ***/
     public static void ValiderCommande(Commande maCommande) throws IOException, ParseException {
@@ -370,7 +380,7 @@ public class Barman {
                 RetirerBoissonDuStock(b,maCommande.getQuantiteBoisson(b));
              }
          }
-         saveCommande(maCommande);
+         maCommande.save();
          System.out.println(" stock apres validation *** " + LeStock);
          Barman.TuVeuxQuoi();
     }
@@ -408,7 +418,7 @@ public class Barman {
             Double prix = (Double) boisson.get("prixMl");
             Double degre = (Double) boisson.get("degreAlcool");
             Integer q = Integer.parseInt(boisson.get("quantite").toString());
-            System.out.println(nom + couleur + prix + degre);
+
             Boisson a = new BoissonAlcoolisee(nom,couleur,prix,degre);
             StockStock.put(a,q);
 
@@ -485,10 +495,11 @@ public class Barman {
     public static void Abientot( Commande maCommande) throws IOException, ParseException {
 
 
-
         // sauvegarder le stock
         writeJSONBoissonsStock(LeStock);
-        // sauvegarder les cocktails
+        // sauvegarder les cocktails crée ?
+
+        // retoour au menu
         Main.MENUPRINCIPALE();
     }
 

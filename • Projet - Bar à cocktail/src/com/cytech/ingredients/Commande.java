@@ -1,8 +1,17 @@
 package com.cytech.ingredients;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Commande {
+    public String getIdc() {
+        return idc;
+    }
+
     private String idc; // identifiant de la commande // TODO date heure de ajd
     private HashMap<Boisson, Integer> commandeBoissons = new HashMap<Boisson, Integer>();
     private HashMap<Cocktail, Integer> commandeCocktails = new HashMap<Cocktail, Integer>();
@@ -92,7 +101,7 @@ public class Commande {
     public Map Afficher() {
         Map Dico = new HashMap();
         int i = 0;
-        System.out.println(" //////////////");
+        System.out.println(" ////////////// " + this.getIdc());
         System.out.println(" ///// *** VOTRE COMMANDE *** ////////////////////////");
         if(this.getNbCocktailsTOTAL() > 0) System.out.println(" ## " + this.getNbCocktailsTOTAL() + " Cocktails");
         for (Cocktail c : getListeCocktails()) {
@@ -131,6 +140,40 @@ public class Commande {
         res = (double) Math.round(res * 100) / 100;
         return res;
     }
+
+    // Enregistrer la commandes
+    public void save() throws IOException {
+        JSONObject obj=new JSONObject();
+
+        JSONArray liste_Boissons=new JSONArray();
+        for(Boisson b: this.getListeBoissons()){
+            JSONObject obj_interne=new JSONObject();
+            obj_interne.put("nom",b.getNom());
+            obj_interne.put("prix",b.getPrix());
+            obj_interne.put("combien",this.commandeBoissons.get(b));
+            liste_Boissons.add(obj_interne);
+        }
+        obj.put("Boissons", liste_Boissons);
+
+        JSONArray liste_Cocktails=new JSONArray();
+        for(Cocktail b: this.getListeCocktails()){
+            JSONObject obj_interne=new JSONObject();
+            obj_interne.put("nom",b.getNom());
+            obj_interne.put("prix",b.getPrix());
+            obj_interne.put("combien",this.commandeCocktails.get(b));
+            liste_Cocktails.add(obj_interne);
+        }
+        obj.put("Cocktails", liste_Cocktails);
+        obj.put("PrixTotal", this.CalculPrixTotal());
+        try(FileWriter file=new FileWriter("commandes_backups/commande_" + this.getIdc() +".json")){
+            file.write(obj.toString());
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
 
 
     // Supprimer la commande

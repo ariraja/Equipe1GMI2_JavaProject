@@ -78,7 +78,7 @@ public class Test {
             Double prix = (Double) boisson.get("prixMl");
             Double degre = (Double) boisson.get("degreAlcool");
             Integer q = Integer.parseInt(boisson.get("quantite").toString());
-           System.out.println(nom + couleur + prix + degre);
+
             Boisson a = new BoissonAlcoolisee(nom,couleur,prix,degre);
             StockStock.put(a,q);
 
