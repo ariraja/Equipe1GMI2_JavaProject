@@ -4,18 +4,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
 import java.util.Calendar;
-import java.util.Iterator;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.util.HashMap;
 
@@ -57,15 +51,7 @@ public class Barman {
     private static ArrayList<Cocktail> LesCocktails = new ArrayList<Cocktail>();
 
 
-    public static int getQuantiteDUneBoissonStock(Boisson b) {
-        if(LeStock.containsKey(b) ){
-            int qte =  LeStock.get(b);
-            return qte;
-        } else {
-            return 0;
-        }
-    }
-    public static void AjouterBoissonAuStock(Boisson b, int cb) {
+    public static void AjouterQteBoissonAuStock(Boisson b, int cb) {
         if(LeStock.containsKey(b) ){
             int qte = LeStock.get(b);
             qte += cb;
@@ -78,7 +64,7 @@ public class Barman {
 
 
     }
-    public static void RetirerBoissonDuStock(Boisson b, int cb) {
+    public static void RetirerQteBoissonDuStock(Boisson b, int cb) {
         if(LeStock.containsKey(b) ){
             int qte = LeStock.get(b);
             if (qte > 0) {
@@ -87,6 +73,12 @@ public class Barman {
             LeStock.put(b,qte);
         } else {
             LeStock.put(b, 0);
+        }
+
+    }
+    public static void RemoveBoissonDuStock(Boisson b) {
+        if(LeStock.containsKey(b) ){
+            LeStock.remove(b);
         }
 
     }
@@ -278,7 +270,7 @@ public class Barman {
     // Afficher le contenu du bar, retourne une carte pour selectionné
     public static Map AfficherCatalogue(Commande maCommande,String Titre,String Notice, boolean okAffCocktail, boolean okAffQuantite) throws IOException, ParseException {
         Map CarteSelec = new HashMap(); int i = 1;
-        System.out.println(Main.printColor("YELLOW") + "///////////////// "+ Main.printColor("RESET") + Notice + Main.printColor("YELLOW"));
+        System.out.println(Main.printColor("YELLOW") + "///////////////// " + Notice );
         System.out.println(String.format( "//////"+ Main.printColor("RED") + Main.printColor("BOLD") +"  -*-* %s *-*- "+ Main.printColor("RESET") + Main.printColor("YELLOW") +" ///////////////////////// \n"+ Main.printColor("RESET") ,Titre));
         if(Barman.getNbBoissonsDispo() + Barman.getNbCocktailsDispo() > 0) {
             if(okAffCocktail) {
@@ -317,6 +309,44 @@ public class Barman {
 
     }
 
+    public static Map AfficherCatalogue(String Titre,String Notice) throws IOException, ParseException {
+        Map CarteSelec = new HashMap(); int i = 1;
+        System.out.println(Main.printColor("YELLOW") + "///////////////// " + Notice );
+        System.out.println(String.format( "//////"+ Main.printColor("RED") + Main.printColor("BOLD") +"  -*-* %s *-*- "+ Main.printColor("RESET") + Main.printColor("YELLOW") +" ///////////////////////// \n"+ Main.printColor("RESET") ,Titre));
+        if(Barman.getNbBoissonsDispo() + Barman.getNbCocktailsDispo() > 0) {
+
+                System.out.println(" #### Nos Cocktails : " + Barman.getNbCocktailsDispo()+ "/" + LesCocktails.size());
+                for (Cocktail c : LesCocktails) {
+                    //System.out.println(c.estDisponible());
+                    if (c.estDisponible()) {
+                        System.out.println("    [" + i + "] : * " + c);
+                        CarteSelec.put(i, c);
+                        i++;
+                    }
+                }
+
+            System.out.println(" #### Nos Boissons : " + Barman.getNbBoissonsDispo() + "/" + LeStock.size());
+            for (Boisson b : LeStock.keySet()) {
+                int fois = LeStock.get(b);
+                if (fois > 0) {
+                        System.out.println("    [" + i + "] : * " + b + " x " + fois);
+
+                } else {
+                    System.out.println(Main.printColor("RED") + "    [" + i + "] : * " + b + " x " + fois + Main.printColor("RESET"));
+                }
+                CarteSelec.put(i, b);
+                i++;
+            }
+
+        }
+        else {
+            System.out.println("\n                      le bar est vide... revenez plutard\n");
+            Main.MENUPRINCIPALE();
+
+        }
+        return CarteSelec;
+
+    }
     //
     public static void SelectionnerBoisson( Commande maCommande) throws IOException, ParseException { // selectionne une boisson parmi la liste de boisson et renvoie la boisson
         Map Carte = AfficherCatalogue(maCommande,"Le BAR","",true,true);
@@ -334,7 +364,7 @@ public class Barman {
             int maxCombien= 100;
 
             if (choix > Barman.getNbCocktailsDispo()) {
-                maxCombien = getQuantiteDUneBoissonStock((Boisson) Carte.get(choix));
+                maxCombien = LeStock.get((Boisson) Carte.get(choix));
                 maxCombien -= maCommande.getQuantiteBoisson((Boisson) Carte.get(choix));
             }
             System.out.println(" max*** " + maxCombien);
@@ -377,7 +407,7 @@ public class Barman {
         // mettre a jour le stock
          if(maCommande.getNbBoissonsTOTAL() > 0) {
              for(Boisson b : maCommande.getListeBoissons()) {
-                RetirerBoissonDuStock(b,maCommande.getQuantiteBoisson(b));
+                RetirerQteBoissonDuStock(b,maCommande.getQuantiteBoisson(b));
              }
          }
          maCommande.save();
@@ -419,7 +449,7 @@ public class Barman {
             Double degre = (Double) boisson.get("degreAlcool");
             Integer q = Integer.parseInt(boisson.get("quantite").toString());
 
-            Boisson a = new BoissonAlcoolisee(nom,couleur,prix,degre);
+            BoissonAlcoolisee a = new BoissonAlcoolisee(nom,couleur,prix,degre);
             StockStock.put(a,q);
 
         }
@@ -433,7 +463,7 @@ public class Barman {
             Double degre = (Double) boisson.get("degreSucre");
             Integer q = Integer.parseInt(boisson.get("quantite").toString());
 
-            Boisson a = new BoissonNonAlcoolisee(nom,couleur,prix,degre);
+            BoissonNonAlcoolisee a = new BoissonNonAlcoolisee(nom,couleur,prix,degre);
             StockStock.put(a,q);
 
         }
@@ -502,6 +532,77 @@ public class Barman {
         // retoour au menu
         Main.MENUPRINCIPALE();
     }
+    public static void JeGere() throws IOException, ParseException {
+        Commande maCommande = new Commande(getDateToday());
+        Map Carte = Barman.AfficherCatalogue("GESTION","ici tu peux gèrer le bar");
+        System.out.println(Main.printColor("BOLD") +"  ---- \n ( 1 : *GERER-STOCK-DE-BOISSONS* )     ( 2 : *GERER-LES-COCKTAILS* )      (0 : *ENREGISTER-&-RETOUR* ) " + Main.printColor("RESET"));
 
+        int choix = Main.SaisirInt(0,2,"");
+        while (choix == 1) {
+            Carte = Barman.AfficherCatalogue("GESTION","ici tu peux gèrer le bar");
+            //if (choix == 1) {
+                System.out.println("  ---- \n (1 : AUGMENTER QUANTITE d'une boisson)   (2 : AJOUTER NOUVELLE boisson au Stock)   (3 : SUPPRIMER une boisson)   (0 : *RETOUR* )");
+                choix = Main.SaisirInt(0, 3, "");
+                //** Augmenter Quantité d'une boisson
+                if (choix == 1) {
+                    System.out.println(" (# : Entrer le numéro de la boisson à augmenter)          (0 : Retour)");
+                    choix = Main.SaisirInt(0, Carte.size(), "une bonne chiffre pour selectionner une boisson.. ou saisissez 0 pour faire retour");
+                    System.out.println(" ~# " + ((Boisson) Carte.get(choix)).getNom() );
+                    System.out.print(" * En ajouter combien > "); int cb = Main.SaisirInt(0, 1000, "n'abuse pas..");
+                    Barman.AjouterQteBoissonAuStock((Boisson) Carte.get(choix),cb);
+                    choix = 1;
+                }
+                //** Ajouter nouvelle boisson, avec quantité
+                else if (choix == 2) {
+                    // creer l object boisson
+                    System.out.print(" * NOM > "); String newNom = Main.SaisirString("");
+                    System.out.print(" * COULEUR > "); String newCouleur = Main.SaisirString("");
+                    System.out.print(" * PRIX au Ml > "); double newPrixMl = Main.SaisirDouble(0.0,1.0,"n'oubliez pas que c'est le prix au Ml, n'abusez pas. ");
+                    System.out.print(" * [1 : BOISSON-ALCOOLISEE] ou [2: BOISSON-NON-ALCOOLISEE] > "); int typeInt = Main.SaisirInt(1,2,"");
+
+                    Boisson newB = null;
+                    if(typeInt == 1) {
+                        System.out.print(" * DEGRE Alcool > "); double newDegre = Main.SaisirDouble(0.0,150,"");
+                         newB = new BoissonAlcoolisee(newNom,newCouleur,newPrixMl,newDegre);
+                    } else if(typeInt == 2) {
+                        System.out.print(" * DEGRE Sucre > "); double newDegre = Main.SaisirDouble(0.0,150,"");
+                        newB = new BoissonNonAlcoolisee(newNom,newCouleur,newPrixMl,newDegre);
+                    }
+                    // la quantité
+                    System.out.print(" * En ajouter combien > "); int cb = Main.SaisirInt(0, 1000, "n'abuse pas..");
+                    System.out.print(" *** NOUVELLE BOISSON ! :  " + newB.toString());
+
+                    Barman.AjouterQteBoissonAuStock(newB,cb);
+                    System.out.println("                                                  (0 : Retour)");
+                    choix = Main.SaisirInt(1,000,"");
+                    choix = 1;
+                }
+                //** Supprimer une boisson
+                else if (choix == 3) {
+                    System.out.println(" (# : Entrer le numéro de la boisson à supprimer)          (0 : Retour)");
+                    choix = Main.SaisirInt(0, Carte.size(), "une bonne chiffre pour selectionner une boisson.. ou saisissez 0 pour faire retour");
+                    System.out.println(" ~# " + ((Boisson) Carte.get(choix)).getNom() );
+                    System.out.print(" * (1 : OUI, SUPPRIMER)   (0 : ANNULER)  > "); choix = Main.SaisirInt(0, 1, "");
+
+                    if(choix == 1) {
+                        // delete
+                        RemoveBoissonDuStock((Boisson) Carte.get(choix));
+                    }
+                    choix = 1;
+                }
+                //** Retour
+                else if (choix == 0) {
+                    JeGere();
+                }
+          //  }
+        }
+        if(choix == 2) {
+            //** Creer un cocktails
+            //** Supprimer cocktails
+
+        }
+        else if(choix == 0) Barman.Abientot(maCommande);
+
+    }
 
 }

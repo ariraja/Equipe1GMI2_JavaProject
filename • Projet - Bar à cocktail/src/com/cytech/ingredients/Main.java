@@ -69,30 +69,23 @@ public class Main {
         System.out.println("////  ---                      ///////////////");
         System.out.println("///"+ printColor("RESET") +"  0 : QUITTER              "+ printColor("YELLOW") +"////////////////");
         System.out.print("//"+ printColor("RESET") +" > ");
-      int choix = SaisirInt(0,2,"");
+      //int choix = SaisirInt(0,2,"");
+        int choix = 2;
         if(choix == 1) {
-            ClearConsole();
             Barman.initBoissonsJSON();
             Barman.initCocktailsJSON();
             Barman.SePresenter();
             Barman.TuVeuxQuoi();
         } else if (choix == 2) {
-
-        } else {
-            System.out.println("A bientot");
+            Barman.initBoissonsJSON();
+            Barman.initCocktailsJSON();
+            Barman.JeGere();
         }
-
     }
-    public static void ClearConsole() { // TODO
 
-
-    }
     public static void main(String[] args) throws IOException, ParseException {
 
-
            MENUPRINCIPALE();
-
-
 
     }
 }
