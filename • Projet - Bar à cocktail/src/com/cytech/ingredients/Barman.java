@@ -454,13 +454,13 @@ public class Barman {
         Map Carte = AfficherCatalogue(maCommande,"Le BAR","",true,true);
         int choix;
 
-        if(maCommande.estVide()) System.out.println("  ---- \n (# : Entrer le numéro de la boisson)             (0 : Quittez)  ");
-        else System.out.println(Main.printColor("BOLD") +"  ---- \n (# : Entrer le numéro de la boisson)          (0 : "+ Main.printColor("CYAN") + "Voir Commande ~ "+ Main.printColor("RESET") + Main.printColor("BOLD") + maCommande.CalculPrixTotal() + "€)"+ Main.printColor("RESET"));
+        if(maCommande.estVide()) System.out.println("  ---- \n (# : Entrer le numéro du produit)             (0 : Quittez)  ");
+        else System.out.println(Main.printColor("BOLD") +"  ---- \n (# : Entrer le numéro du produit)          (0 : "+ Main.printColor("CYAN") + "Voir Commande ~ "+ Main.printColor("RESET") + Main.printColor("BOLD") + maCommande.CalculPrixTotal() + "€)"+ Main.printColor("RESET"));
         choix = Main.SaisirInt(0,Carte.size(), "");
 
         if (choix != 0) {
            // System.out.println("  ---- \n (1 : VERRE)             (0 : BOUTEILLE)  ");
-            System.out.println(" ~# " + Carte.get(choix));
+            System.out.println(" ~# " + ((BoissonMere) Carte.get(choix)).getNom());
             System.out.print(" combien ? > ");
 
             int maxCombien= 100;
@@ -511,6 +511,17 @@ public class Barman {
                 RetirerQteBoissonDuStock(b,maCommande.getQuantiteBoisson(b));
              }
          }
+
+        if(maCommande.getNbCocktailsTOTAL() > 0) {
+            for(Cocktail c : maCommande.getListeCocktails()) {
+                for(Boisson b : c.getComposants()) {
+                    for(int k = 0; k < maCommande.getQuantiteCocktail(c); k++) {
+                        RetirerQteBoissonDuStock(b, c.getRecetteNB(b));
+                    }
+                }
+
+            }
+        }
          maCommande.save();
          System.out.println(" stock apres validation *** " + LeStock);
          Barman.TuVeuxQuoi();
