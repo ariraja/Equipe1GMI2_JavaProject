@@ -3,9 +3,6 @@ package com.cytech.ingredients;
 public abstract class BoissonMere {
     protected String nom; // nom du breuvage
     protected double contenance; // contenance du breuvage, capacité en ml
-
-
-
     protected double contenu; // contenu du breuvage, en ml
 
     private String couleur; // en hexadecimal

@@ -6,7 +6,11 @@ import java.util.Objects;
 
 public abstract class Boisson extends BoissonMere {
 
-    private double prixMl = 10;
+    public double getPrixMl() {
+        return prixMl;
+    }
+
+    private double prixMl;
 
 
     public Boisson(String nom, String couleur, double prixml, double contenance) {
@@ -45,7 +49,6 @@ public abstract class Boisson extends BoissonMere {
 
     // retouner prix de la boisson
     public double getPrix() { // le prix change en fct du contenu
-
         return this.prixMl*this.getContenance();
     }
 

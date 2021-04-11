@@ -1,10 +1,22 @@
 package com.cytech.ingredients;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+
+import java.util.Calendar;
+import java.util.Iterator;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.util.HashMap;
 
 
@@ -14,16 +26,9 @@ public class Barman {
 
 
     // Initialiser les Boissons en stock a partir du fichier JSON
-    public static void initBoissonsJSON() {
+    public static void initBoissonsJSON() throws IOException, ParseException {
         LeStock.clear();
-        //**** GET LES BOISSONS
-        Boisson a = new BoissonAlcoolisee("Braja","rouge",0.02,52);
-        Boisson b = new BoissonAlcoolisee("Burvoy","bleu",0.05,70);
-        Boisson c = new BoissonNonAlcoolisee("BSaid","vert",0.3,24);
-
-        Barman.AjouterBoissonAuStock(a,2);
-        Barman.AjouterBoissonAuStock(b,5);
-        Barman.AjouterBoissonAuStock(c,10);
+        LeStock = readJSONBoissonsStock(new FileReader("boisson.json"));
 
     }
     // initialiser les Coktails a partir du fichier JSON
@@ -123,7 +128,7 @@ public class Barman {
         return annee+mois+jour+"-"+heure+minute+seconde;
     }
 
-    public static void TuVeuxQuoi() {
+    public static void TuVeuxQuoi() throws IOException, ParseException {
         Commande maCommande = new Commande(getDateToday()); // TODO date de ajd
         AfficherCatalogue(maCommande,"Le BAR","Qu'est ce qui vous ferai plaisir ?",true,true);
         System.out.println("  ---- \n ( 1 : *COMMANDER* )     ( 2 : *CREER MON COCKTAIL* )      (0 : *QUITTER LE BAR* ) ");
@@ -172,7 +177,7 @@ public class Barman {
         }
 
     }
-    private static void ComposerCocktail(Commande maCommande) {
+    private static void ComposerCocktail(Commande maCommande) throws IOException, ParseException {
         Map Carte;
         int choix;
         double Combien;
@@ -256,7 +261,7 @@ public class Barman {
     }
 
     // Afficher le contenu du bar, retourne une carte pour selectionné
-    public static Map AfficherCatalogue(Commande maCommande,String Titre,String Notice, boolean okAffCocktail, boolean okAffQuantite) {
+    public static Map AfficherCatalogue(Commande maCommande,String Titre,String Notice, boolean okAffCocktail, boolean okAffQuantite) throws IOException, ParseException {
         Map CarteSelec = new HashMap(); int i = 1;
         System.out.println("///////////////// " + Notice);
         System.out.println(String.format("//////  -*-* %s *-*- ///////////////////////// \n",Titre));
@@ -298,7 +303,7 @@ public class Barman {
     }
 
     //
-    public static void SelectionnerBoisson( Commande maCommande) { // selectionne une boisson parmi la liste de boisson et renvoie la boisson
+    public static void SelectionnerBoisson( Commande maCommande) throws IOException, ParseException { // selectionne une boisson parmi la liste de boisson et renvoie la boisson
         Map Carte = AfficherCatalogue(maCommande,"Le BAR","",true,true);
         int choix;
 
@@ -345,7 +350,7 @@ public class Barman {
         }
     }
 
-    public static void AnnulerCommande(Commande maCommande) {
+    public static void AnnulerCommande(Commande maCommande) throws IOException, ParseException {
         maCommande.Supprimer();
         Barman.TuVeuxQuoi();
     }
@@ -357,7 +362,7 @@ public class Barman {
     }
 
     /*** Valider Commander et sauvegarde ***/
-    public static void ValiderCommande(Commande maCommande)  {
+    public static void ValiderCommande(Commande maCommande) throws IOException, ParseException {
          System.out.println(" stock avant validation *** " + LeStock);
         // mettre a jour le stock
          if(maCommande.getNbBoissonsTOTAL() > 0) {
@@ -388,12 +393,103 @@ public class Barman {
         return nbBoissonsDispo;
     }
 
-    public static void Abientot( Commande maCommande) {
-        Main.MENUPRINCIPALE();
+    public static  HashMap<Boisson,Integer> readJSONBoissonsStock(FileReader file) throws IOException, ParseException {
+        HashMap<Boisson,Integer> StockStock = new HashMap<Boisson,Integer>();
+        JSONParser jsonparser = new JSONParser();
+        Object obj= jsonparser.parse(file);
+        JSONObject jsonobject=(JSONObject)obj;
+
+        JSONArray array = (JSONArray) jsonobject.get("BoissonAlcoolisee");
+        for(int i=0;i<array.size();i++){
+            JSONObject boisson=(JSONObject) array.get(i);
+            String nom = (String) boisson.get("nom");
+
+            String couleur = (String) boisson.get("couleur");
+            Double prix = (Double) boisson.get("prixMl");
+            Double degre = (Double) boisson.get("degreAlcool");
+            Integer q = Integer.parseInt(boisson.get("quantite").toString());
+            System.out.println(nom + couleur + prix + degre);
+            Boisson a = new BoissonAlcoolisee(nom,couleur,prix,degre);
+            StockStock.put(a,q);
+
+        }
+        JSONArray array2 = (JSONArray) jsonobject.get("BoissonNonAlcoolisee");
+        for(int i=0;i<array.size();i++){
+            JSONObject boisson=(JSONObject) array2.get(i);
+            String nom = (String) boisson.get("nom");
+
+            String couleur = (String) boisson.get("couleur");
+            Double prix = (Double) boisson.get("prixMl");
+            Double degre = (Double) boisson.get("degreSucre");
+            Integer q = Integer.parseInt(boisson.get("quantite").toString());
+
+            Boisson a = new BoissonNonAlcoolisee(nom,couleur,prix,degre);
+            StockStock.put(a,q);
+
+        }
+
+        return StockStock;
+    }
+
+    private static void writeJSONBoissonsStock(HashMap<Boisson,Integer> StockStock) throws IOException {
+        JSONObject obj=new JSONObject();
+
+
+        //** Séparé les alccol et les sucré
+        ArrayList<BoissonAlcoolisee> Ba = new ArrayList<BoissonAlcoolisee>();
+        ArrayList<BoissonNonAlcoolisee> Bs = new ArrayList<BoissonNonAlcoolisee>();
+        for(Boisson b: StockStock.keySet()){
+            String cla = b.getClass().getSimpleName();
+            if(cla.equals("BoissonAlcoolisee")) {
+                Ba.add((BoissonAlcoolisee) b);
+            } else if(cla.equals("BoissonNonAlcoolisee")) {
+                Bs.add((BoissonNonAlcoolisee) b);
+            }
+        }
+
+
+        JSONArray liste_BoissonsAlcoolisee=new JSONArray();
+        for(BoissonAlcoolisee b: Ba){
+            JSONObject obj_interne=new JSONObject();
+            obj_interne.put("nom",b.getNom());
+            obj_interne.put("couleur",b.getCouleur());
+            obj_interne.put("prixMl",b.getPrixMl());
+            obj_interne.put("degreAlcool",b.getDegreAlcool());
+            obj_interne.put("quantite",StockStock.get(b));
+            liste_BoissonsAlcoolisee.add(obj_interne);
+        }
+        obj.put("BoissonAlcoolisee",liste_BoissonsAlcoolisee);
+
+        JSONArray liste_BoissonsNonAlcoolisee=new JSONArray();
+        for(BoissonNonAlcoolisee b: Bs){
+            JSONObject obj_interne=new JSONObject();
+            obj_interne.put("nom",b.getNom());
+            obj_interne.put("couleur",b.getCouleur());
+            obj_interne.put("prixMl",b.getPrixMl());
+            obj_interne.put("degreSucre",b.getDegreSucre());
+            obj_interne.put("quantite",StockStock.get(b));
+            liste_BoissonsNonAlcoolisee.add(obj_interne);
+        }
+        obj.put("BoissonNonAlcoolisee",liste_BoissonsNonAlcoolisee);
+
+        // Go
+        try(FileWriter file=new FileWriter("boisson.json")){
+            file.write(obj.toString());
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void Abientot( Commande maCommande) throws IOException, ParseException {
+
+
 
         // sauvegarder le stock
-
-        //
+        writeJSONBoissonsStock(LeStock);
+        // sauvegarder les cocktails
+        Main.MENUPRINCIPALE();
     }
 
 

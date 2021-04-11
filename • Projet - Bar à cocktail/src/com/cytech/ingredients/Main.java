@@ -55,7 +55,7 @@ public class Main {
     }
 
 
-    public static void MENUPRINCIPALE() {
+    public static void MENUPRINCIPALE() throws IOException, ParseException {
         System.out.println(printColor("YELLOW") + "//////////////////////////////////////////////");
         System.out.println("/////////////"+ printColor("RED") +" Mlamali SAIDSALIMO "+ printColor("YELLOW") +"/////////////");
         System.out.println("////////////"+ printColor("RED") +"   Ari RAJAOEFERA   "+ printColor("YELLOW") +"//////////////");
@@ -86,9 +86,9 @@ public class Main {
     public static void main(String[] args) throws IOException, ParseException {
 
 
+           MENUPRINCIPALE();
 
-      //MENUPRINCIPALE();
-Test.main();
+
 
     }
 }

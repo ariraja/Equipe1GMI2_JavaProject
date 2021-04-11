@@ -75,10 +75,10 @@ public class Test {
             String nom = (String) boisson.get("nom");
 
             String couleur = (String) boisson.get("couleur");
-            Double prix = (Double) boisson.get("prix");
+            Double prix = (Double) boisson.get("prixMl");
             Double degre = (Double) boisson.get("degreAlcool");
             Integer q = Integer.parseInt(boisson.get("quantite").toString());
-
+           System.out.println(nom + couleur + prix + degre);
             Boisson a = new BoissonAlcoolisee(nom,couleur,prix,degre);
             StockStock.put(a,q);
 
@@ -89,7 +89,7 @@ public class Test {
             String nom = (String) boisson.get("nom");
 
             String couleur = (String) boisson.get("couleur");
-            Double prix = (Double) boisson.get("prix");
+            Double prix = (Double) boisson.get("prixMl");
             Double degre = (Double) boisson.get("degreSucre");
             Integer q = Integer.parseInt(boisson.get("quantite").toString());
 
@@ -121,10 +121,10 @@ public class Test {
         JSONArray liste_BoissonsAlcoolisee=new JSONArray();
         for(BoissonAlcoolisee b: Ba){
             JSONObject obj_interne=new JSONObject();
-            obj_interne.put("nom",b.nom);
+            obj_interne.put("nom",b.getNom());
             obj_interne.put("couleur",b.getCouleur());
-            obj_interne.put("prix",b.getPrix());
-            obj_interne.put("degre",b.getDegreAlcool());
+            obj_interne.put("prixMl",b.getPrixMl());
+            obj_interne.put("degreAlcool",b.getDegreAlcool());
             obj_interne.put("quantite",StockStock.get(b));
             liste_BoissonsAlcoolisee.add(obj_interne);
         }
@@ -133,17 +133,17 @@ public class Test {
         JSONArray liste_BoissonsNonAlcoolisee=new JSONArray();
         for(BoissonNonAlcoolisee b: Bs){
             JSONObject obj_interne=new JSONObject();
-            obj_interne.put("nom",b.nom);
+            obj_interne.put("nom",b.getNom());
             obj_interne.put("couleur",b.getCouleur());
-            obj_interne.put("prix",b.getPrix());
-            obj_interne.put("degre",b.getDegreSucre());
+            obj_interne.put("prixMl",b.getPrixMl());
+            obj_interne.put("degreSucre",b.getDegreSucre());
             obj_interne.put("quantite",StockStock.get(b));
             liste_BoissonsNonAlcoolisee.add(obj_interne);
         }
         obj.put("BoissonNonAlcoolisee",liste_BoissonsNonAlcoolisee);
 
         // Go
-        try(FileWriter file=new FileWriter("maj_boisson.json")){
+        try(FileWriter file=new FileWriter("boisson.json")){
             file.write(obj.toString());
         }
         catch (IOException e){
@@ -157,8 +157,15 @@ public class Test {
 
         HashMap<Boisson,Integer> LeStock = readJSONBoissonsStock(new FileReader("boisson.json"));
         System.out.println(LeStock);
-
+        System.out.println("###");
         writeJSONBoissonsStock(LeStock);
+        System.out.println("###");
+
+        LeStock = readJSONBoissonsStock(new FileReader("boisson.json"));
+        System.out.println(LeStock);
+        System.out.println("###");
+        writeJSONBoissonsStock(LeStock);
+        System.out.println("###");
         /*Boisson test =new BoissonNonAlcoolisee("Eau","#1586E0",0.002,50);
         Boisson_liste.add(test);
         writeJSONBoisson(Boisson_liste);*/
