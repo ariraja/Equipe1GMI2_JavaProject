@@ -3,10 +3,9 @@
 L'objectif de ce projet était de créer un logiciel pour gérer un bar à cocktail. 
 
 ### ⚙ HOW TO RUN IT
-La classe principale 'Main.java' 
+Run 'Main.java'  
 
-
-### • Bienvenue dans le bar
+### BIENVENUE DANS LE BAR 🍹
 
 Une fois le programme exécuté nous arrivons sur la page d’accueil de notre programme.  Nous avons trois possibilités:
 - (1) pour continuer en tant que client
@@ -40,14 +39,14 @@ Nos boissons sont définis avec plusieurs critères: un nom, un degré de sucre 
 
 Pour la gestion des cocktails, le barman a la possibilité de soit créer un cocktail, soit supprimer un cocktail de la carte. Les cocktails sont composés d’au minimum 2 boissons. Ils se caractérisent par un nom, …., des ingrédients et d’une couleur qui nous servira dans la suite du projet avec l’interface graphique.
 
-
 ---
 ### 📸 Screenshots 
 
-![](img/1.PNG "screen")
-![](img/3.png "screen")
-![](img/3.png "carte des cocktails")
+![](img/1.PNG)
+![](img/3.png)
+![](img/3.png)
+![](img/4.png)
 
 ---
 ### 👨🏾‍💻👨🏼‍💻 Auteurs
-[Mlamali SAID SALIMO](https://www.linkedin.com/in/mlamalisaidsalimo)
+[Mlamali SAID SALIMO](https://www.linkedin.com/in/mlamalisaidsalimo) - [Ari RAJAOFERA](https://www.linkedin.com/in/mlamalisaidsalimo) https://www.linkedin.com/in/ari-rajaofera/
