@@ -1,0 +1,233 @@
+{
+    "Cocktails": [
+        {
+            "nom":"Mojito",
+            "couleur":"#FAEBE7",
+            "ingredients":[
+                {
+                    "nom": "Rhum cubain",
+                    "contenance" : 6,
+                    "couleur":"#AA3E10",
+                    "prixMl":0.04,
+                    "degreAlcool":35.0
+                },
+                {
+                    "nom": "Jus de citron",
+                    "contenance" : 3,
+                    "couleur":"#ECEB2E",
+                    "prixMl":0.005,
+                     "degreSucre":2.0
+                },
+                {
+                    "nom": "Sirop de sucre de canne",
+                    "contenance" : 2,
+                    "couleur":"#CFC1BF",
+                    "prixMl":0.015,
+                    "degreSucre":2.0
+                },
+                //feuille de menthe à ajouter ap!!
+                {
+                    "nom": "Eau gazeuse",
+                    "contenance" : 8,
+                    "couleur":"#1586E8",
+                    "prixMl":0.005,
+                    "degreSucre":0.1
+                }
+            ]
+            
+            
+        },
+        
+        {
+            "nom":"Pina Colada",
+            "couleur":"#E7E5E5",
+            "ingredients":[
+                {
+                    "nom": "Rhum cubain",
+                    "contenance" : 2,
+                    "couleur":"#AA3E10",
+                    "prixMl":0.04,
+                    "degreAlcool":35.0
+                },
+                {
+                    "nom": "Rhum Blanc",
+                    "contenance" : 4,
+                    "couleur":"#EEE9E8",
+                    "prixMl":0.05,
+                    "degreAlcool":40.0
+                },
+                {
+                    "nom": "Lait de coco",
+                    "contenance" : 4,
+                    "couleur":"#FEFEFE",
+                    "prixMl":0.01,
+                    "degreSucre":4.0
+                },
+                //feuille de menthe à ajouter ap!!
+               {
+                   "nom": "Jus d'ananas",
+                    "contenance" : 10,
+                    "couleur":"##CFD722",
+                    "prixMl":0.005,
+                    "degreSucre":4.0
+                }
+            ]
+            
+            
+        },
+        
+         {
+            "nom":"Sex on the beach",
+            "couleur":"#DBA72F",
+            "ingredients":[
+                {
+                    "nom": "Vodka",
+                    "contenance" : 3,
+                    "couleur":"#F9F9F5",
+                    "prixMl":0.04,
+                    "degreAlcool":40.0
+                },
+                {
+                    "nom": "Sirop de Melon",
+                    "contenance" : 2,
+                    "couleur":"#F9A108",
+                    "prixMl":0.025,
+                    "degreSucre":3.0
+                },
+                //feuille de menthe à ajouter ap!!
+               {
+                   "nom": "Jus d'ananas",
+                    "contenance" : 3,
+                    "couleur":"##CFD722",
+                    "prixMl":0.005,
+                    "degreSucre":4.0
+                },
+                {
+                    "nom": "Jus de Cranberry",
+                    "contenance" : 5,
+                    "couleur":"#EA2E28",
+                    "prixMl":0.005,
+                    "degreSucre":5.0
+                }
+            ] 
+        },
+        
+        {
+            "nom":"Tequila Sunrise",
+            "couleur":"#F0BA2A",
+            "ingredients":[
+                {
+                    "nom": "Tequila",
+                    "contenance" : 3,
+                    "couleur":"#FAFEA9",
+                    "prixMl":0.03,
+                    "degreAlcool":40.0
+                },
+                {
+                    "nom": "Jus d'orange",
+                    "contenance" : 3,
+                    "couleur":"#E08511",
+                    "prixMl":0.005,
+                    "degreSucre":4.0
+                },
+                {
+                    "nom": "Sirop de grenadine",
+                    "contenance" : 3,
+                    "couleur":"#DC1542",
+                    "prixMl":0.005,
+                    "degreSucre":10.0
+                }
+            ]
+                     
+        },
+        
+        {
+            "nom":"Screwdriver",
+            "couleur":"#DE9620",
+            "ingredients":[
+                {
+                    "nom": "Vodka",
+                    "contenance" : 4,
+                    "couleur":"#F9F9F5",
+                    "prixMl":0.04,
+                    "degreAlcool":40.0
+                },
+                {
+                    "nom": "Jus d'orange",
+                    "contenance" : 16,
+                    "couleur":"#E08511",
+                    "prixMl":0.005,
+                    "degreSucre":4.0
+                }
+            ] 
+        },
+        
+        {
+            "nom":"Blue Hawaiian",
+            "couleur":"#20B2ED",
+            "ingredients":[
+                
+                {
+                    "nom": "Rhum Blanc",
+                    "contenance" : 4,
+                    "couleur":"#EEE9E8",
+                    "prixMl":0.05,
+                    "degreAlcool":40.0
+                },
+                {
+                    "nom": "Curaçao bleu",
+                    "contenance" : 2,
+                    "couleur":"#2865EA",
+                    "prixMl":0.02,
+                     "degreAlcool":20.0
+                },
+                {
+                    "nom": "Lait de coco",
+                    "contenance" : 4,
+                    "couleur":"#FEFEFE",
+                    "prixMl":0.01,
+                    "degreSucre":4.0
+                },
+                //feuille de menthe à ajouter ap!!
+               {
+                   "nom": "Jus d'ananas",
+                    "contenance" : 1,
+                    "couleur":"##CFD722",
+                    "prixMl":0.005,
+                    "degreSucre":4.0
+                }
+            ]
+            
+            
+        },
+        
+        {
+            "nom":"Amaretto Sour",
+            "couleur":"#E3AB17",
+            "ingredients":[
+                {
+                    "nom": "Amaretto",
+                    "contenance" : 12,
+                    "couleur":"#A45E5E",
+                    "prixMl":0.03,
+                    "degreAlcool":28.0
+                },
+                {
+                    "nom": "Jus de citron",
+                    "contenance" : 4,
+                    "couleur":"#ECEB2E",
+                    "prixMl":0.005,
+                     "degreSucre":2.0
+                },
+                {
+                    "nom": "Sirop de sucre de canne",
+                    "contenance" : 4,
+                    "couleur":"#CFC1BF",
+                    "prixMl":0.015,
+                    "degreSucre":2.0
+                }
+            ]
+        }
+        
+    ]
+}

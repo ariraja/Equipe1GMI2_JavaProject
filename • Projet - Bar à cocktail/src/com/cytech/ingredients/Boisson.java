@@ -20,7 +20,7 @@ public abstract class Boisson extends BoissonMere {
     }
     // si la contenance n'est pas précisé
     public Boisson(String nom, String couleur, double prixml) {
-        super(nom, 1000, couleur);
+        super(nom, 200, couleur); // 200ml
         this.prixMl = prixml;
     }
 

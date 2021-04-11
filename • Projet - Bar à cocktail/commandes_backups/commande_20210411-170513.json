@@ -1,0 +1,6 @@
+{"Boissons":[
+  {"combien":10,"prix":3.0,"nom":"Sirop de sucre de canne"},
+  {"combien":2,"prix":1.0,"nom":"Eau gazeuse"},
+  {"combien":10,"prix":1.0,"nom":"Jus de citrons"}],
+  "PrixTotal":42.0,
+  "Cocktails":[]}

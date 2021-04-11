@@ -9,11 +9,11 @@ public class Cocktail extends BoissonMere{
 
 
     private boolean dispo = false;
-    private HashMap<Boisson, Double> listeComposantsBoisson; // changer ça en MAP
+    private HashMap<Boisson, Integer> listeComposantsBoisson;
 
 
 
-    public Cocktail(String nom, HashMap<Boisson, Double> listeComposants) {
+    public Cocktail(String nom, HashMap<Boisson, Integer> listeComposants) {
         super(nom, 200,new ArrayList<Boisson>(listeComposants.keySet()).get(0).getCouleur()); // TODO couleur
         this.listeComposantsBoisson = listeComposants;
     }
@@ -23,12 +23,15 @@ public class Cocktail extends BoissonMere{
     }
     public void majDispo(HashMap<Boisson, Integer> B_stock) {
         boolean ok = true;
-        //System.out.println(Arrays.toString(this.listeComposantsBoisson));
-         for(Boisson comp : this.listeComposantsBoisson.keySet()) {
-             if(!B_stock.containsKey(comp)  ) { // si le composant n'est pas présent
-                 ok = false;
-             } else if( B_stock.get(comp) <= 0 ){
-                 ok = false;
+ int qte;
+
+         for(Boisson comp : this.getComposants()) {
+             if(B_stock.containsKey(comp) ) { // si le composant est bien présent
+
+                 qte = B_stock.get(comp); // qte en stock
+                 if(qte < this.listeComposantsBoisson.get(comp)) { // si ya pas le minimum requis
+                     ok = false;
+                 }
 
              }
             // System.out.println("     +" +comp + " ######## " + B_stock + " " +ok);
@@ -44,7 +47,7 @@ public class Cocktail extends BoissonMere{
         if(this.getDegreAlcool() > 0) {
             res += " *DegALCOOL* : " +  this.getDegreAlcool() + "° |";
         }
-        if(this.getDegreAlcool() > 0) {
+        if(this.getDegreSucre() > 0) {
             res += " *DegSUCRE* " +  this.getDegreSucre() + "° |";
         }
 
