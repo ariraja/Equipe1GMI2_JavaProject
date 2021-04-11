@@ -6,15 +6,13 @@ description courte du projet
 Comment executer le programme
 
 
-### 🔩 Description du programme
+### • Bienvenue dans le bar
+#### Commander
+#### Creer son cocktail
 
-#### • Bienvenue dans le bar
-##### Commander
-##### Creer son cocktail
-
-#### • Gestion du bar
-##### Gestions des Boisson
-##### Gestions des Coktails
+### • Gestion du bar
+#### Gestions des Boisson
+#### Gestions des Coktails
 ---
 ### 📸 Screenshots 
 
