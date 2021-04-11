@@ -9,7 +9,7 @@ Comment executer le programme
 ### • Bienvenue dans le bar
 #### Commander
 #### Creer son cocktail
-
+blalbal les degre d'alcool sont calculé en faisant la moyenne pondéré par les 
 ### • Gestion du bar
 #### Gestions des Boisson
 #### Gestions des Coktails
