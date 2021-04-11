@@ -42,7 +42,7 @@ Pour la gestion des cocktails, le barman a la possibilité de soit créer un coc
 ---
 ### 📸 Screenshots 
 
-![](img/1.PNG)
+![](img/1.png)
 ![](img/3.png)
 ![](img/3.png)
 ![](img/4.png)
